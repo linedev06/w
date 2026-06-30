@@ -1,0 +1,769 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MultaCheck — Analise Juridica</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  :root{
+    --purple:#7C3AED;
+    --purple-dark:#6D28D9;
+    --purple-light:#F5F3FF;
+    --purple-mist:#EDE9FE;
+    --text:#1E1B2E;
+    --text-sec:#6B7280;
+    --border:#E5E7EB;
+    --white:#FFFFFF;
+    --success:#10B981;
+    --warning:#F59E0B;
+    --danger:#EF4444;
+  }
+  body{
+    font-family:'Inter',sans-serif;
+    background:var(--white);
+    color:var(--text);
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+  }
+
+  /* ── Header ── */
+  .header{
+    width:100%;
+    padding:20px 24px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    border-bottom:1px solid var(--border);
+  }
+  .logo{
+    font-family:'Montserrat',sans-serif;
+    font-weight:400;
+    font-size:14px;
+    letter-spacing:3px;
+    text-transform:uppercase;
+  }
+  .logo span{color:var(--purple)}
+  .header-badge{
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    padding:6px 12px;
+    border-radius:6px;
+    background:rgba(124,58,237,.08);
+    color:var(--purple);
+    font-size:11px;
+    font-family:'Montserrat',sans-serif;
+    letter-spacing:1px;
+    text-transform:uppercase;
+  }
+
+  /* ── Progress ── */
+  .progress-wrap{width:100%;padding:0 24px;margin-top:16px}
+  .progress-track{width:100%;height:2px;background:var(--border);border-radius:1px;overflow:hidden}
+  .progress-fill{height:100%;background:var(--purple);transition:width .5s cubic-bezier(.4,0,.2,1)}
+  .step-labels{display:flex;justify-content:space-between;padding:8px 0}
+  .step-labels span{
+    font-family:'Montserrat',sans-serif;
+    font-size:10px;
+    letter-spacing:1.5px;
+    text-transform:uppercase;
+    color:var(--text-sec);
+    transition:color .3s;
+  }
+  .step-labels span.active{color:var(--purple)}
+
+  /* ── Main ── */
+  .main{
+    flex:1;
+    width:100%;
+    max-width:480px;
+    padding:32px 24px 40px;
+    display:flex;
+    flex-direction:column;
+  }
+  .screen{display:none;flex-direction:column;flex:1}
+  .screen.visible{display:flex}
+
+  h1.title{
+    font-family:'Montserrat',sans-serif;
+    font-weight:400;
+    font-size:18px;
+    letter-spacing:2.5px;
+    text-transform:uppercase;
+    margin:0 0 8px;
+  }
+  .subtitle{
+    font-size:14px;
+    color:var(--text-sec);
+    line-height:1.6;
+    margin:0 0 32px;
+    font-weight:300;
+  }
+
+  /* ── Upload Area ── */
+  .upload-area{
+    border:2px dashed var(--border);
+    border-radius:12px;
+    padding:48px 24px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    cursor:pointer;
+    transition:all .2s;
+    margin-bottom:16px;
+  }
+  .upload-area.dragging{
+    border-color:var(--purple);
+    background:var(--purple-light);
+  }
+  .upload-area svg{color:var(--purple);margin-bottom:16px}
+  .upload-text{font-size:14px;margin-bottom:4px;text-align:center}
+  .upload-hint{font-size:12px;color:var(--text-sec);text-align:center}
+
+  .or-divider{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    margin:8px 0;
+    color:var(--text-sec);
+    font-size:12px;
+  }
+  .or-divider .line{flex:1;height:1px;background:var(--border)}
+
+  .camera-btn{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:10px;
+    padding:14px;
+    border:1px solid var(--border);
+    border-radius:10px;
+    background:var(--white);
+    cursor:pointer;
+    font-size:14px;
+    font-family:'Inter',sans-serif;
+    color:var(--text);
+    width:100%;
+    transition:opacity .2s;
+  }
+  .camera-btn:hover{opacity:.85}
+  .camera-btn svg{color:var(--purple)}
+
+  /* ── File Preview ── */
+  .preview-wrap{
+    position:relative;
+    border-radius:12px;
+    overflow:hidden;
+    margin-bottom:24px;
+    border:1px solid var(--border);
+  }
+  .preview-wrap img{width:100%;max-height:280px;object-fit:cover;display:block}
+  .preview-remove{
+    position:absolute;top:8px;right:8px;
+    background:rgba(0,0,0,.5);
+    border:none;border-radius:50%;
+    width:28px;height:28px;
+    display:flex;align-items:center;justify-content:center;
+    cursor:pointer;
+  }
+  .preview-remove svg{color:var(--white)}
+
+  .file-name{
+    display:flex;align-items:center;gap:10px;
+    padding:14px 16px;
+    background:var(--purple-light);
+    border-radius:10px;
+    margin-bottom:24px;
+  }
+  .file-name svg{color:var(--purple);flex-shrink:0}
+  .file-name span{
+    font-size:13px;flex:1;
+    overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+  }
+  .file-name button{
+    background:none;border:none;cursor:pointer;padding:4px;
+    display:flex;align-items:center;
+  }
+
+  /* ── Buttons ── */
+  .spacer{flex:1}
+  .btn-primary{
+    font-family:'Montserrat',sans-serif;
+    font-weight:400;font-size:13px;
+    letter-spacing:2px;text-transform:uppercase;
+    padding:16px 32px;
+    background:var(--purple);color:var(--white);
+    border:none;border-radius:10px;
+    cursor:pointer;
+    display:flex;align-items:center;justify-content:center;gap:8px;
+    width:100%;transition:opacity .2s;
+  }
+  .btn-primary:hover{opacity:.88}
+  .btn-primary:disabled{
+    background:var(--border);color:var(--text-sec);cursor:default;
+  }
+  .btn-primary:disabled:hover{opacity:1}
+
+  .btn-secondary{
+    font-family:'Montserrat',sans-serif;
+    font-weight:400;font-size:12px;
+    letter-spacing:1.5px;text-transform:uppercase;
+    padding:12px;
+    background:transparent;color:var(--text-sec);
+    border:none;cursor:pointer;
+    display:flex;align-items:center;justify-content:center;gap:6px;
+    width:100%;
+  }
+  .btn-secondary:hover{opacity:.7}
+
+  /* ── Loading ── */
+  .loading{
+    display:flex;flex-direction:column;
+    align-items:center;justify-content:center;
+    padding:64px 24px;gap:20px;
+  }
+  .loading svg{color:var(--purple);animation:spin 1.2s linear infinite}
+  .loading p{font-size:13px;color:var(--text-sec);text-align:center;line-height:1.7}
+  @keyframes spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+
+  /* ── Gauge ── */
+  .gauge-wrap{display:flex;flex-direction:column;align-items:center;margin:8px 0 32px}
+  .gauge-wrap p{font-size:12px;color:var(--text-sec);margin-top:8px;text-align:center}
+  .badge{
+    display:inline-flex;align-items:center;gap:6px;
+    padding:6px 12px;border-radius:6px;
+    font-size:11px;
+    font-family:'Montserrat',sans-serif;
+    letter-spacing:1px;text-transform:uppercase;
+    margin-top:4px;
+  }
+  .badge-baixo{background:rgba(16,185,129,.08);color:var(--success)}
+  .badge-medio{background:rgba(245,158,11,.08);color:var(--warning)}
+  .badge-alto{background:rgba(239,68,68,.08);color:var(--danger)}
+
+  /* ── Info Grid ── */
+  .info-grid{
+    display:grid;grid-template-columns:1fr 1fr;
+    gap:12px;margin-bottom:24px;
+  }
+  .info-card{
+    padding:16px;background:var(--purple-light);
+    border-radius:10px;display:flex;flex-direction:column;gap:6px;
+  }
+  .info-card.full{grid-column:1/-1}
+  .info-card.warning-bg{background:rgba(245,158,11,.06)}
+  .info-label{
+    font-family:'Montserrat',sans-serif;
+    font-size:9px;letter-spacing:1.5px;
+    text-transform:uppercase;color:var(--text-sec);font-weight:400;
+  }
+  .info-label.warning-label{color:var(--warning)}
+  .info-label-row{display:flex;align-items:center;gap:8px}
+  .info-label-row svg{color:var(--warning)}
+  .info-value{font-size:15px;font-weight:500}
+
+  .parecer-card{
+    padding:16px;background:var(--purple-light);border-radius:10px;
+    margin-bottom:24px;
+  }
+  .resumo-text{font-size:13px;color:var(--text-sec);line-height:1.7;margin:6px 0 0}
+  .fundamentos{list-style:none;margin:10px 0 0;padding:0;display:flex;flex-direction:column;gap:8px}
+  .fundamentos li{
+    display:flex;align-items:flex-start;gap:8px;
+    font-size:13px;line-height:1.5;
+  }
+  .fundamentos li::before{
+    content:'';
+    width:4px;height:4px;border-radius:50%;
+    background:var(--purple);
+    margin-top:7px;flex-shrink:0;
+  }
+
+  /* ── Pricing ── */
+  .pricing-card{
+    border:1px solid var(--border);border-radius:12px;
+    padding:24px;margin-bottom:16px;
+  }
+  .pricing-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:16px}
+  .pricing-title{
+    font-family:'Montserrat',sans-serif;font-weight:400;
+    font-size:13px;letter-spacing:1.5px;text-transform:uppercase;
+    margin:0 0 4px;
+  }
+  .pricing-desc{font-size:12px;color:var(--text-sec);margin:0;line-height:1.5}
+  .pricing-amount{
+    font-family:'Montserrat',sans-serif;
+    font-size:28px;font-weight:300;color:var(--purple);line-height:1;
+    text-align:right;
+  }
+  .pricing-amount small{font-size:14px}
+  .pricing-sub{font-size:11px;color:var(--text-sec);text-align:right;margin-top:2px}
+  .pricing-includes{
+    margin:16px 0 0;padding:16px 0 0;
+    border-top:1px solid var(--border);
+    display:flex;flex-direction:column;gap:10px;
+  }
+  .include-item{display:flex;align-items:center;gap:10px;font-size:13px}
+  .include-item svg{color:var(--success);flex-shrink:0}
+
+  .payment-section{margin-bottom:24px}
+  .payment-label{
+    font-family:'Montserrat',sans-serif;
+    font-size:10px;letter-spacing:1.5px;text-transform:uppercase;
+    color:var(--text-sec);font-weight:400;
+    margin-bottom:12px;display:block;
+  }
+  .payment-options{display:flex;gap:10px}
+  .payment-opt{
+    flex:1;padding:14px 12px;
+    border:1.5px solid var(--border);border-radius:10px;
+    background:var(--white);cursor:pointer;
+    display:flex;flex-direction:column;align-items:center;gap:6px;
+    transition:all .2s;
+    font-family:'Inter',sans-serif;font-size:11px;color:var(--text);
+  }
+  .payment-opt.selected{
+    border-color:var(--purple);background:var(--purple-light);
+  }
+  .payment-opt svg{color:var(--text-sec);transition:color .2s}
+  .payment-opt.selected svg{color:var(--purple)}
+
+  .pix-discount{
+    text-align:center;padding:8px 0 16px;
+    font-size:12px;color:var(--success);
+  }
+
+  .gap-24{height:24px}
+  .hidden{display:none!important}
+</style>
+</head>
+<body>
+
+<!-- ── Header ── -->
+<div class="header">
+  <div class="logo">MULTA<span>CHECK</span></div>
+  <div class="header-badge">
+    <svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/></svg>
+    ANALISE JURIDICA
+  </div>
+</div>
+
+<!-- ── Progress ── -->
+<div class="progress-wrap">
+  <div class="progress-track"><div class="progress-fill" id="progressFill" style="width:33.3%"></div></div>
+  <div class="step-labels">
+    <span id="label1" class="active">Enviar multa</span>
+    <span id="label2">Analise</span>
+    <span id="label3">Contratar</span>
+  </div>
+</div>
+
+<!-- ── Main ── -->
+<div class="main">
+
+  <!-- ═══ TELA 1: UPLOAD ═══ -->
+  <div class="screen visible" id="screen1">
+    <h1 class="title">ENVIE SUA MULTA</h1>
+    <p class="subtitle">Tire uma foto ou envie o documento da multa para recebermos e avaliarmos seu caso.</p>
+
+    <!-- Upload vazio -->
+    <div id="uploadEmpty">
+      <div class="upload-area" id="uploadArea">
+        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+        <p class="upload-text">Arraste o arquivo aqui</p>
+        <p class="upload-hint">PDF, JPG ou PNG — max 10MB</p>
+      </div>
+      <div class="or-divider"><div class="line"></div><span>ou</span><div class="line"></div></div>
+      <button class="camera-btn" id="cameraBtn">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/></svg>
+        Tirar foto agora
+      </button>
+    </div>
+
+    <!-- Preview imagem -->
+    <div id="previewWrap" class="preview-wrap hidden">
+      <img id="previewImg" src="" alt="Preview">
+      <button class="preview-remove" id="removePreview">
+        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+
+    <!-- Preview arquivo -->
+    <div id="fileNameWrap" class="file-name hidden">
+      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M10 13H8"/><path d="M16 17H8"/><path d="M16 13h-2"/></svg>
+      <span id="fileNameText"></span>
+      <button id="removeFile">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6B7280" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+
+    <input type="file" id="fileInput" accept="image/*,.pdf" style="display:none">
+    <input type="file" id="cameraInput" accept="image/*" capture="environment" style="display:none">
+
+    <div class="spacer"></div>
+    <button class="btn-primary" id="analyzeBtn" disabled>
+      ANALISAR MULTA
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+    </button>
+  </div>
+
+  <!-- ═══ TELA 2: ANALISE ═══ -->
+  <div class="screen" id="screen2">
+
+    <!-- Loading -->
+    <div class="loading" id="loadingState">
+      <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg>
+      <p>Analisando sua multa...<br><span style="font-size:11px">Verificando artigos, prazos e precedentes</span></p>
+    </div>
+
+    <!-- Resultado -->
+    <div id="resultState" class="hidden" style="display:none;flex-direction:column;flex:1">
+      <h1 class="title">RESULTADO DA ANALISE</h1>
+      <p class="subtitle">Avaliamos os principais aspectos juridicos da sua multa.</p>
+
+      <!-- Gauge -->
+      <div class="gauge-wrap">
+        <svg width="240" height="140" viewBox="0 0 240 140" id="gaugeSvg">
+          <path d="M 40 110 A 80 80 0 0 1 200 110" fill="none" stroke="#E5E7EB" stroke-width="8" stroke-linecap="round"/>
+          <path id="gaugeArc" d="M 40 110 A 80 80 0 0 1 40 110" fill="none" stroke="#F59E0B" stroke-width="8" stroke-linecap="round" style="transition:all .8s cubic-bezier(.4,0,.2,1)"/>
+          <text id="gaugeScore" x="120" y="94" text-anchor="middle" fill="#1E1B2E" font-size="32" font-family="'Montserrat',sans-serif" font-weight="300">0</text>
+          <text x="120" y="114" text-anchor="middle" fill="#6B7280" font-size="10" font-family="'Montserrat',sans-serif" letter-spacing="1.5" font-weight="400">/100</text>
+        </svg>
+        <div id="grauBadge" class="badge badge-medio">
+          <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+          <span id="grauText">GRAU MEDIO</span>
+        </div>
+        <p id="grauDesc">Caso requer analise tecnica detalhada</p>
+      </div>
+
+      <!-- Info Grid -->
+      <div class="info-grid">
+        <div class="info-card">
+          <span class="info-label">Infracao</span>
+          <span class="info-value" id="infoTipo">—</span>
+        </div>
+        <div class="info-card">
+          <span class="info-label">Artigo</span>
+          <span class="info-value" id="infoArtigo">—</span>
+        </div>
+        <div class="info-card">
+          <span class="info-label">Valor da multa</span>
+          <span class="info-value" id="infoValor">—</span>
+        </div>
+        <div class="info-card">
+          <span class="info-label">Pontos CNH</span>
+          <span class="info-value" id="infoPontos">—</span>
+        </div>
+        <div class="info-card full warning-bg">
+          <div class="info-label-row">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            <span class="info-label warning-label">Prazo para recurso</span>
+          </div>
+          <span class="info-value" id="infoPrazo">—</span>
+        </div>
+      </div>
+
+      <!-- Parecer -->
+      <div class="parecer-card">
+        <span class="info-label">Parecer preliminar</span>
+        <p class="resumo-text" id="parecer">—</p>
+        <ul class="fundamentos" id="fundamentos"></ul>
+      </div>
+
+      <button class="btn-primary" id="toStep3">
+        VER OPCOES DE DEFESA
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+      </button>
+      <button class="btn-secondary" id="backToUpload">
+        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+        Enviar outra multa
+      </button>
+    </div>
+  </div>
+
+  <!-- ═══ TELA 3: CONTRATACAO ═══ -->
+  <div class="screen" id="screen3">
+    <h1 class="title">DEFESA DA SUA MULTA</h1>
+    <p class="subtitle">Recurso administrativo completo elaborado por especialistas em direito de transito.</p>
+
+    <div class="pricing-card">
+      <div class="pricing-header">
+        <div>
+          <p class="pricing-title">RECURSO ADMINISTRATIVO</p>
+          <p class="pricing-desc" id="pricingDesc">Defesa completa para sua multa</p>
+        </div>
+        <div>
+          <div class="pricing-amount">197<small>,00</small></div>
+          <div class="pricing-sub">pagamento unico</div>
+        </div>
+      </div>
+      <div class="pricing-includes">
+        <div class="include-item">
+          <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          Analise completa do auto de infracao
+        </div>
+        <div class="include-item">
+          <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          Recurso administrativo fundamentado
+        </div>
+        <div class="include-item">
+          <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          Acompanhamento do processo
+        </div>
+        <div class="include-item">
+          <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          Suporte via WhatsApp
+        </div>
+      </div>
+    </div>
+
+    <div class="payment-section">
+      <span class="payment-label">Forma de pagamento</span>
+      <div class="payment-options">
+        <button class="payment-opt selected" data-method="pix" id="optPix">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect width="5" height="5" x="3" y="3" rx="1"/><rect width="5" height="5" x="16" y="3" rx="1"/><rect width="5" height="5" x="3" y="16" rx="1"/><path d="M21 16h-3a2 2 0 0 0-2 2v3"/><path d="M21 21v.01"/><path d="M12 7v3a2 2 0 0 1-2 2H7"/><path d="M3 12h.01"/><path d="M12 3h.01"/><path d="M12 16v.01"/><path d="M16 12h1"/><path d="M21 12v.01"/><path d="M12 21v-1"/></svg>
+          PIX
+        </button>
+        <button class="payment-opt" data-method="cartao" id="optCartao">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="14" x="2" y="5" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
+          Cartao
+        </button>
+        <button class="payment-opt" data-method="boleto" id="optBoleto">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="3" x2="3" y1="22" y2="2"/><line x1="7" x2="7" y1="22" y2="7"/><line x1="11" x2="11" y1="22" y2="2"/><line x1="15" x2="15" y1="22" y2="13"/><line x1="19" x2="19" y1="22" y2="2"/></svg>
+          Boleto
+        </button>
+      </div>
+    </div>
+
+    <div class="pix-discount" id="pixDiscount">5% de desconto no PIX — R$ 187,15</div>
+
+    <button class="btn-primary" id="contractBtn">
+      CONTRATAR DEFESA
+      <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/></svg>
+    </button>
+    <button class="btn-secondary" id="backToAnalysis">
+      <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+      Voltar para analise
+    </button>
+  </div>
+
+</div>
+
+<script>
+(function(){
+
+  // ── State ──
+  let currentFile = null;
+  let currentStep = 1;
+  let selectedPayment = 'pix';
+
+  // ── Mock (substituir por IA) ──
+  const MOCK = {
+    grau:'MEDIO', pontuacao:65,
+    tipoInfracao:'Excesso de velocidade',
+    artigo:'Art. 218, I do CTB',
+    valorMulta:'R$ 130,16',
+    pontosCNH:4,
+    prazoRecurso:'30 dias',
+    diasRestantes:18,
+    resumo:'Infracao de natureza media registrada por radar eletronico. Ha margem para recurso administrativo com base em possiveis irregularidades de sinalizacao e afericao do equipamento.',
+    chanceSucesso:'Moderada',
+    fundamentos:[
+      'Verificacao da calibracao do equipamento',
+      'Analise da sinalizacao no local',
+      'Conferencia dos prazos de notificacao'
+    ]
+  };
+
+  const GRAU_MAP = {
+    BAIXO:{color:'#10B981',cls:'badge-baixo',desc:'Caso simples, alta chance de resolucao rapida'},
+    MEDIO:{color:'#F59E0B',cls:'badge-medio',desc:'Caso requer analise tecnica detalhada'},
+    ALTO:{color:'#EF4444',cls:'badge-alto',desc:'Caso complexo, exige atuacao imediata'},
+  };
+
+  // ── DOM refs ──
+  const $ = id => document.getElementById(id);
+  const progressFill = $('progressFill');
+  const labels = [$('label1'),$('label2'),$('label3')];
+  const screens = [$('screen1'),$('screen2'),$('screen3')];
+  const uploadArea = $('uploadArea');
+  const uploadEmpty = $('uploadEmpty');
+  const previewWrap = $('previewWrap');
+  const previewImg = $('previewImg');
+  const fileNameWrap = $('fileNameWrap');
+  const fileNameText = $('fileNameText');
+  const fileInput = $('fileInput');
+  const cameraInput = $('cameraInput');
+  const analyzeBtn = $('analyzeBtn');
+  const loadingState = $('loadingState');
+  const resultState = $('resultState');
+  const pixDiscount = $('pixDiscount');
+
+  // ── Navigation ──
+  function goTo(step){
+    currentStep = step;
+    progressFill.style.width = ((step/3)*100)+'%';
+    labels.forEach((l,i)=> l.classList.toggle('active', i < step));
+    screens.forEach((s,i)=>{
+      s.classList.toggle('visible', i === step-1);
+    });
+  }
+
+  // ── File handling ──
+  function handleFile(f){
+    if(!f) return;
+    currentFile = f;
+    if(f.type.startsWith('image/')){
+      const reader = new FileReader();
+      reader.onload = e => {
+        previewImg.src = e.target.result;
+        previewWrap.classList.remove('hidden');
+        fileNameWrap.classList.add('hidden');
+        uploadEmpty.classList.add('hidden');
+      };
+      reader.readAsDataURL(f);
+    } else {
+      fileNameText.textContent = f.name;
+      fileNameWrap.classList.remove('hidden');
+      previewWrap.classList.add('hidden');
+      uploadEmpty.classList.add('hidden');
+    }
+    analyzeBtn.disabled = false;
+  }
+
+  function clearFile(){
+    currentFile = null;
+    previewWrap.classList.add('hidden');
+    fileNameWrap.classList.add('hidden');
+    uploadEmpty.classList.remove('hidden');
+    analyzeBtn.disabled = true;
+    fileInput.value = '';
+  }
+
+  // ── Gauge drawing ──
+  function drawGauge(score, color){
+    const angle = (score/100)*180;
+    const rad = (angle * Math.PI)/180;
+    const cx=120, cy=110, r=80;
+    const x = cx - r*Math.cos(rad);
+    const y = cy - r*Math.sin(rad);
+    const large = angle > 180 ? 1 : 0;
+    $('gaugeArc').setAttribute('d', `M 40 110 A 80 80 0 ${large} 1 ${x} ${y}`);
+    $('gaugeArc').setAttribute('stroke', color);
+    $('gaugeScore').textContent = score;
+  }
+
+  // ── Render analysis ──
+  function renderAnalysis(data){
+    const g = GRAU_MAP[data.grau] || GRAU_MAP.MEDIO;
+    drawGauge(data.pontuacao, g.color);
+
+    const badge = $('grauBadge');
+    badge.className = 'badge ' + g.cls;
+    $('grauText').textContent = 'GRAU ' + data.grau;
+    $('grauDesc').textContent = g.desc;
+
+    $('infoTipo').textContent = data.tipoInfracao;
+    $('infoArtigo').textContent = data.artigo;
+    $('infoValor').textContent = data.valorMulta;
+    $('infoPontos').textContent = data.pontosCNH + ' pontos';
+    $('infoPrazo').textContent = data.diasRestantes + ' dias restantes de ' + data.prazoRecurso;
+    $('parecer').textContent = data.resumo;
+    $('pricingDesc').textContent = 'Defesa completa para sua multa de ' + data.tipoInfracao.toLowerCase();
+
+    const ul = $('fundamentos');
+    ul.innerHTML = '';
+    data.fundamentos.forEach(f => {
+      const li = document.createElement('li');
+      li.textContent = f;
+      ul.appendChild(li);
+    });
+
+    loadingState.style.display = 'none';
+    resultState.classList.remove('hidden');
+    resultState.style.display = 'flex';
+  }
+
+  // ── Analyze ──
+  function startAnalysis(){
+    goTo(2);
+    loadingState.style.display = 'flex';
+    resultState.style.display = 'none';
+    resultState.classList.add('hidden');
+
+    /*
+     * ═══════════════════════════════════════════════════════
+     *  INTEGRAÇÃO IA — SUBSTITUIR O setTimeout ABAIXO
+     * ═══════════════════════════════════════════════════════
+     *
+     *  Enviar currentFile para sua API de análise.
+     *
+     *  Exemplo:
+     *
+     *  const formData = new FormData();
+     *  formData.append("image", currentFile);
+     *
+     *  fetch("/api/analyze-multa", {
+     *    method: "POST",
+     *    body: formData,
+     *  })
+     *  .then(r => r.json())
+     *  .then(result => renderAnalysis(result))
+     *  .catch(err => console.error(err));
+     *
+     *  O objeto result deve ter: grau, pontuacao,
+     *  tipoInfracao, artigo, valorMulta, pontosCNH,
+     *  prazoRecurso, diasRestantes, resumo, chanceSucesso,
+     *  fundamentos (array de strings).
+     *
+     * ═══════════════════════════════════════════════════════
+     */
+
+    setTimeout(()=> renderAnalysis(MOCK), 2400);
+  }
+
+  // ── Payment selection ──
+  function selectPayment(method){
+    selectedPayment = method;
+    document.querySelectorAll('.payment-opt').forEach(b => {
+      b.classList.toggle('selected', b.dataset.method === method);
+    });
+    pixDiscount.style.display = method === 'pix' ? 'block' : 'none';
+  }
+
+  // ── Events ──
+  uploadArea.addEventListener('click', ()=> fileInput.click());
+  uploadArea.addEventListener('dragover', e => { e.preventDefault(); uploadArea.classList.add('dragging'); });
+  uploadArea.addEventListener('dragleave', ()=> uploadArea.classList.remove('dragging'));
+  uploadArea.addEventListener('drop', e => {
+    e.preventDefault();
+    uploadArea.classList.remove('dragging');
+    handleFile(e.dataTransfer.files[0]);
+  });
+
+  fileInput.addEventListener('change', e => handleFile(e.target.files[0]));
+  cameraInput.addEventListener('change', e => handleFile(e.target.files[0]));
+
+  $('cameraBtn').addEventListener('click', ()=> cameraInput.click());
+  $('removePreview').addEventListener('click', clearFile);
+  $('removeFile').addEventListener('click', clearFile);
+
+  analyzeBtn.addEventListener('click', ()=>{ if(currentFile) startAnalysis(); });
+  $('toStep3').addEventListener('click', ()=> goTo(3));
+  $('backToUpload').addEventListener('click', ()=>{ clearFile(); goTo(1); });
+  $('backToAnalysis').addEventListener('click', ()=> goTo(2));
+
+  document.querySelectorAll('.payment-opt').forEach(b => {
+    b.addEventListener('click', ()=> selectPayment(b.dataset.method));
+  });
+
+  $('contractBtn').addEventListener('click', ()=> alert('Integrar gateway de pagamento aqui'));
+
+})();
+</script>
+</body>
+</html>
