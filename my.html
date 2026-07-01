@@ -1,0 +1,798 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MultaCheck — Painel Interno</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --purple:#7C3AED;
+  --purple-deep:#6D28D9;
+  --purple-light:#F5F3FF;
+  --purple-mist:#EDE9FE;
+  --text:#1E1B2E;
+  --text-sec:#6B7280;
+  --text-dim:#9CA3AF;
+  --border:#E5E7EB;
+  --white:#FFFFFF;
+  --success:#10B981;
+  --success-bg:rgba(16,185,129,.08);
+  --warning:#F59E0B;
+  --warning-bg:rgba(245,158,11,.08);
+  --danger:#EF4444;
+  --danger-bg:rgba(239,68,68,.08);
+  --blue:#3B82F6;
+  --blue-bg:rgba(59,130,246,.08);
+}
+body{
+  font-family:'Inter',sans-serif;
+  background:#FAFAFA;
+  color:var(--text);
+  min-height:100vh;
+}
+
+/* ═══ HEADER ═══ */
+.panel-header{
+  background:var(--white);
+  border-bottom:1px solid var(--border);
+  padding:0 32px;
+  display:flex;align-items:center;justify-content:space-between;
+  height:60px;
+  position:sticky;top:0;z-index:50;
+}
+.panel-logo{
+  font-family:'Montserrat',sans-serif;font-weight:400;
+  font-size:13px;letter-spacing:3px;text-transform:uppercase;
+  color:var(--text);display:flex;align-items:center;gap:16px;
+}
+.panel-logo span{color:var(--purple)}
+.panel-logo-divider{
+  width:1px;height:20px;background:var(--border);
+}
+.panel-logo-label{
+  font-size:10px;letter-spacing:2px;color:var(--text-dim);
+}
+.panel-user{
+  display:flex;align-items:center;gap:10px;
+  font-size:13px;color:var(--text-sec);
+}
+.panel-avatar{
+  width:32px;height:32px;border-radius:50%;
+  background:var(--purple-light);color:var(--purple);
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Montserrat',sans-serif;font-size:12px;font-weight:500;
+}
+
+/* ═══ COUNTERS ═══ */
+.counters{
+  padding:28px 32px;
+  display:flex;gap:16px;
+}
+.counter-card{
+  flex:1;
+  background:var(--white);
+  border:1px solid var(--border);
+  border-radius:10px;
+  padding:20px 20px;
+  display:flex;align-items:center;gap:16px;
+}
+.counter-icon{
+  width:40px;height:40px;border-radius:10px;
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;
+}
+.counter-icon.purple{background:var(--purple-light);color:var(--purple)}
+.counter-icon.yellow{background:var(--warning-bg);color:var(--warning)}
+.counter-icon.green{background:var(--success-bg);color:var(--success)}
+.counter-icon.blue{background:var(--blue-bg);color:var(--blue)}
+.counter-info{}
+.counter-number{
+  font-family:'Montserrat',sans-serif;font-weight:400;
+  font-size:24px;line-height:1;margin-bottom:4px;
+}
+.counter-label{
+  font-size:11px;color:var(--text-dim);
+  font-family:'Montserrat',sans-serif;
+  letter-spacing:1px;text-transform:uppercase;
+}
+
+/* ═══ TOOLBAR ═══ */
+.toolbar{
+  padding:0 32px 20px;
+  display:flex;align-items:center;justify-content:space-between;
+  gap:16px;
+}
+.toolbar-filters{display:flex;gap:8px}
+.filter-btn{
+  font-family:'Montserrat',sans-serif;font-weight:400;
+  font-size:10px;letter-spacing:1.5px;text-transform:uppercase;
+  padding:8px 16px;border-radius:8px;
+  border:1px solid var(--border);background:var(--white);
+  color:var(--text-sec);cursor:pointer;transition:all .2s;
+}
+.filter-btn:hover{border-color:var(--purple-mist);color:var(--text)}
+.filter-btn.active{
+  background:var(--purple);color:var(--white);border-color:var(--purple);
+}
+.toolbar-search{
+  display:flex;align-items:center;gap:8px;
+  padding:8px 14px;
+  border:1px solid var(--border);border-radius:8px;
+  background:var(--white);
+  min-width:240px;
+}
+.toolbar-search svg{color:var(--text-dim);flex-shrink:0}
+.toolbar-search input{
+  border:none;outline:none;font-family:'Inter',sans-serif;
+  font-size:13px;color:var(--text);width:100%;
+  background:transparent;
+}
+.toolbar-search input::placeholder{color:var(--text-dim)}
+
+/* ═══ CASE LIST ═══ */
+.case-list{padding:0 32px 40px}
+
+.case-card{
+  background:var(--white);
+  border:1px solid var(--border);
+  border-radius:10px;
+  margin-bottom:8px;
+  overflow:hidden;
+  transition:border-color .2s;
+}
+.case-card:hover{border-color:var(--purple-mist)}
+
+/* Row (always visible) */
+.case-row{
+  display:grid;
+  grid-template-columns:100px 1.2fr 1fr 80px 120px 40px;
+  align-items:center;
+  padding:16px 20px;
+  cursor:pointer;
+  gap:12px;
+}
+.case-date{
+  font-size:12px;color:var(--text-dim);
+  font-family:'Montserrat',sans-serif;
+  letter-spacing:.5px;
+}
+.case-client{
+  display:flex;flex-direction:column;gap:2px;
+}
+.case-client-name{font-size:14px;font-weight:500}
+.case-client-contact{font-size:11px;color:var(--text-dim)}
+.case-infraction{font-size:13px;color:var(--text-sec)}
+.case-score{
+  font-family:'Montserrat',sans-serif;font-weight:400;
+  font-size:14px;text-align:center;
+}
+.case-status{
+  display:inline-flex;align-items:center;justify-content:center;
+  padding:5px 10px;border-radius:6px;
+  font-family:'Montserrat',sans-serif;font-size:9px;
+  letter-spacing:1px;text-transform:uppercase;
+  white-space:nowrap;
+}
+.status-novo{background:var(--blue-bg);color:var(--blue)}
+.status-analisado{background:var(--warning-bg);color:var(--warning)}
+.status-pago{background:var(--purple-light);color:var(--purple)}
+.status-andamento{background:var(--success-bg);color:var(--success)}
+.status-concluido{background:#F3F4F6;color:var(--text-dim)}
+.case-chevron{
+  display:flex;align-items:center;justify-content:center;
+  color:var(--text-dim);transition:transform .3s;
+}
+.case-card.open .case-chevron{transform:rotate(180deg)}
+
+/* Expanded detail */
+.case-detail{
+  max-height:0;overflow:hidden;
+  transition:max-height .4s cubic-bezier(.4,0,.2,1);
+}
+.case-detail-inner{
+  padding:0 20px 24px;
+  border-top:1px solid var(--border);
+}
+
+.detail-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr 1fr;
+  gap:16px;
+  padding-top:20px;
+}
+.detail-block{
+  padding:16px;background:#FAFAFA;
+  border-radius:8px;
+}
+.detail-block-label{
+  font-family:'Montserrat',sans-serif;font-size:9px;
+  letter-spacing:1.5px;text-transform:uppercase;
+  color:var(--text-dim);margin-bottom:8px;
+}
+.detail-block-value{font-size:14px;line-height:1.6}
+.detail-block-value.small{font-size:13px;color:var(--text-sec);font-weight:300}
+
+.detail-section{
+  padding-top:16px;margin-top:16px;
+  border-top:1px solid var(--border);
+}
+.detail-section-title{
+  font-family:'Montserrat',sans-serif;font-size:9px;
+  letter-spacing:1.5px;text-transform:uppercase;
+  color:var(--text-dim);margin-bottom:10px;
+}
+.detail-fundamentos{
+  list-style:none;display:flex;flex-direction:column;gap:6px;
+}
+.detail-fundamentos li{
+  display:flex;align-items:flex-start;gap:8px;
+  font-size:13px;color:var(--text-sec);line-height:1.5;font-weight:300;
+}
+.detail-fundamentos li::before{
+  content:'';width:4px;height:4px;border-radius:50%;
+  background:var(--purple);margin-top:7px;flex-shrink:0;
+}
+
+.detail-actions{
+  display:flex;gap:10px;
+  padding-top:20px;
+}
+.action-btn{
+  font-family:'Montserrat',sans-serif;font-weight:400;
+  font-size:10px;letter-spacing:1.5px;text-transform:uppercase;
+  padding:10px 20px;border-radius:8px;
+  cursor:pointer;transition:all .2s;
+  display:flex;align-items:center;gap:6px;
+}
+.action-btn.primary{
+  background:var(--purple);color:var(--white);border:none;
+}
+.action-btn.primary:hover{background:var(--purple-deep)}
+.action-btn.secondary{
+  background:var(--white);color:var(--text-sec);
+  border:1px solid var(--border);
+}
+.action-btn.secondary:hover{border-color:var(--text-dim)}
+.action-btn.danger{
+  background:var(--white);color:var(--danger);
+  border:1px solid var(--danger-bg);
+}
+.action-btn.danger:hover{background:var(--danger-bg)}
+
+/* ═══ EMPTY STATE ═══ */
+.empty-state{
+  text-align:center;padding:80px 24px;color:var(--text-dim);
+}
+.empty-state svg{color:var(--border);margin-bottom:16px}
+.empty-state p{font-size:14px}
+
+/* ═══ RESPONSIVE ═══ */
+@media(max-width:900px){
+  .counters{flex-wrap:wrap}
+  .counter-card{flex:1 1 calc(50% - 8px);min-width:0}
+  .case-row{
+    grid-template-columns:1fr 1fr;
+    gap:8px;
+  }
+  .case-date{order:1}
+  .case-status{order:2;justify-self:end}
+  .case-client{order:3;grid-column:1/-1}
+  .case-infraction{order:4}
+  .case-score{order:5;text-align:left}
+  .case-chevron{order:6;display:none}
+  .detail-grid{grid-template-columns:1fr}
+  .toolbar{flex-direction:column;align-items:stretch}
+  .toolbar-search{min-width:0}
+}
+@media(max-width:600px){
+  .panel-header{padding:0 16px}
+  .counters{padding:20px 16px}
+  .counter-card{flex:1 1 100%}
+  .toolbar{padding:0 16px 16px}
+  .toolbar-filters{flex-wrap:wrap}
+  .case-list{padding:0 16px 32px}
+  .case-row{padding:14px 16px}
+  .detail-grid{gap:10px}
+  .detail-actions{flex-direction:column}
+}
+</style>
+</head>
+<body>
+
+<!-- ═══ HEADER ═══ -->
+<div class="panel-header">
+  <div class="panel-logo">
+    MULTA<span>CHECK</span>
+    <div class="panel-logo-divider"></div>
+    <span class="panel-logo-label">PAINEL INTERNO</span>
+  </div>
+  <div class="panel-user">
+    <span>Administrador</span>
+    <div class="panel-avatar">A</div>
+  </div>
+</div>
+
+<!-- ═══ COUNTERS ═══ -->
+<div class="counters" id="counters">
+  <!-- Preenchidos via JS -->
+</div>
+
+<!-- ═══ TOOLBAR ═══ -->
+<div class="toolbar">
+  <div class="toolbar-filters">
+    <button class="filter-btn active" data-filter="todos">Todos</button>
+    <button class="filter-btn" data-filter="novo">Novos</button>
+    <button class="filter-btn" data-filter="pago">Pagos</button>
+    <button class="filter-btn" data-filter="andamento">Em andamento</button>
+    <button class="filter-btn" data-filter="concluido">Concluídos</button>
+  </div>
+  <div class="toolbar-search">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+    <input type="text" placeholder="Buscar por nome ou placa..." id="searchInput">
+  </div>
+</div>
+
+<!-- ═══ CASE LIST ═══ -->
+<div class="case-list" id="caseList">
+  <!-- Preenchido via JS -->
+</div>
+
+<script>
+(function(){
+
+  /*
+   * ═══════════════════════════════════════════════════════════
+   *  INTEGRAÇÃO BANCO DE DADOS
+   * ═══════════════════════════════════════════════════════════
+   *
+   *  Substituir o array MOCK_CASES abaixo pela chamada ao
+   *  seu banco de dados / API backend.
+   *
+   *  Exemplo com fetch:
+   *
+   *  async function loadCases(filter) {
+   *    const response = await fetch('/api/cases?status=' + filter);
+   *    const cases = await response.json();
+   *    renderCases(cases);
+   *    renderCounters(cases);
+   *  }
+   *
+   *  Cada objeto do array deve seguir a estrutura abaixo.
+   *  O campo "analiseIA" contém o resultado da IA — se a IA
+   *  ainda não analisou, esse campo pode ser null.
+   *
+   * ═══════════════════════════════════════════════════════════
+   */
+
+  var MOCK_CASES = [
+    {
+      id:'mc-001',
+      data:'28/06/2026',
+      cliente:{ nome:'Rafael Oliveira', telefone:'(11) 98452-3310', email:'rafael.oliv@gmail.com' },
+      placa:'BRA2E19',
+      status:'pago', // novo | analisado | pago | andamento | concluido
+      /*
+       * ════════════════════════════════════════════════
+       *  INTEGRAÇÃO IA — campo analiseIA
+       * ════════════════════════════════════════════════
+       *
+       *  Este objeto é o retorno da IA após analisar a
+       *  imagem da multa enviada pelo cliente.
+       *
+       *  Se a IA ainda não processou, definir como null.
+       *  A interface mostrará "Aguardando análise".
+       *
+       *  Quando a IA retornar, popular com o formato:
+       *  {
+       *    grau: 'BAIXO' | 'MEDIO' | 'ALTO',
+       *    pontuacao: 0-100,
+       *    tipoInfracao: string,
+       *    artigo: string,
+       *    valorMulta: string,
+       *    pontosCNH: number,
+       *    prazoRecurso: string,
+       *    diasRestantes: number,
+       *    resumo: string,
+       *    fundamentos: string[]
+       *  }
+       *
+       * ════════════════════════════════════════════════
+       */
+      analiseIA:{
+        grau:'MEDIO',
+        pontuacao:65,
+        tipoInfracao:'Excesso de velocidade',
+        artigo:'Art. 218, I do CTB',
+        valorMulta:'R$ 130,16',
+        pontosCNH:4,
+        prazoRecurso:'30 dias',
+        diasRestantes:18,
+        resumo:'Infração de natureza média registrada por radar eletrônico. Há margem para recurso com base em possíveis irregularidades de sinalização e aferição.',
+        fundamentos:[
+          'Verificação da calibração do equipamento',
+          'Análise da sinalização no local',
+          'Conferência dos prazos de notificação'
+        ]
+      }
+    },
+    {
+      id:'mc-002',
+      data:'27/06/2026',
+      cliente:{ nome:'Camila Santos', telefone:'(21) 97331-8820', email:'camila.s@hotmail.com' },
+      placa:'RIO4A55',
+      status:'novo',
+      analiseIA:null
+    },
+    {
+      id:'mc-003',
+      data:'26/06/2026',
+      cliente:{ nome:'Pedro Almeida', telefone:'(31) 99102-4478', email:'pedroalm@gmail.com' },
+      placa:'MGA7B22',
+      status:'andamento',
+      analiseIA:{
+        grau:'ALTO',
+        pontuacao:82,
+        tipoInfracao:'Avanço de sinal vermelho',
+        artigo:'Art. 208 do CTB',
+        valorMulta:'R$ 293,47',
+        pontosCNH:7,
+        prazoRecurso:'30 dias',
+        diasRestantes:5,
+        resumo:'Infração gravíssima com registro por câmera de monitoramento. Prazo para recurso próximo do fim. Necessita revisão urgente.',
+        fundamentos:[
+          'Verificação do tempo do semáforo',
+          'Análise das imagens de monitoramento',
+          'Checagem de dupla autuação no cruzamento'
+        ]
+      }
+    },
+    {
+      id:'mc-004',
+      data:'25/06/2026',
+      cliente:{ nome:'Ana Beatriz Costa', telefone:'(11) 96778-1234', email:'anab.costa@gmail.com' },
+      placa:'SPE3D77',
+      status:'concluido',
+      analiseIA:{
+        grau:'BAIXO',
+        pontuacao:35,
+        tipoInfracao:'Estacionamento irregular',
+        artigo:'Art. 181, XVII do CTB',
+        valorMulta:'R$ 88,38',
+        pontosCNH:3,
+        prazoRecurso:'30 dias',
+        diasRestantes:0,
+        resumo:'Infração leve com boas chances de recurso. Sinalização do local apresenta irregularidades documentadas.',
+        fundamentos:[
+          'Ausência de placa regulamentar visível',
+          'Verificação do horário de restrição'
+        ]
+      }
+    },
+    {
+      id:'mc-005',
+      data:'24/06/2026',
+      cliente:{ nome:'Marcos Vinícius', telefone:'(85) 98890-5567', email:'marcosv@outlook.com' },
+      placa:'CEA1F33',
+      status:'analisado',
+      analiseIA:{
+        grau:'MEDIO',
+        pontuacao:58,
+        tipoInfracao:'Faixa exclusiva de ônibus',
+        artigo:'Art. 184, I do CTB',
+        valorMulta:'R$ 130,16',
+        pontosCNH:4,
+        prazoRecurso:'30 dias',
+        diasRestantes:22,
+        resumo:'Infração média por trafegar em faixa exclusiva. Possível defesa com base em sinalização insuficiente no trecho.',
+        fundamentos:[
+          'Análise da sinalização horizontal e vertical',
+          'Verificação do horário de operação da faixa',
+          'Checagem da resolução do órgão de trânsito local'
+        ]
+      }
+    }
+  ];
+
+  // ── Status config ──
+  var STATUS_MAP = {
+    novo:       { label:'Novo',          cls:'status-novo' },
+    analisado:  { label:'Analisado',     cls:'status-analisado' },
+    pago:       { label:'Pago',          cls:'status-pago' },
+    andamento:  { label:'Em andamento',  cls:'status-andamento' },
+    concluido:  { label:'Concluído',     cls:'status-concluido' },
+  };
+
+  var GRAU_COLORS = {
+    BAIXO:'#10B981', MEDIO:'#F59E0B', ALTO:'#EF4444'
+  };
+
+  var currentFilter = 'todos';
+
+  // ── Render counters ──
+  function renderCounters(cases){
+    var counts = { total:cases.length, novos:0, pagos:0, concluidos:0 };
+    cases.forEach(function(c){
+      if(c.status === 'novo') counts.novos++;
+      if(c.status === 'pago') counts.pagos++;
+      if(c.status === 'concluido') counts.concluidos++;
+    });
+
+    document.getElementById('counters').innerHTML =
+      counterCard('purple', iconInbox(), counts.total, 'Total') +
+      counterCard('yellow', iconAlert(), counts.novos, 'Novos') +
+      counterCard('green', iconCheck(), counts.pagos, 'Pagos') +
+      counterCard('blue', iconArchive(), counts.concluidos, 'Concluídos');
+  }
+
+  function counterCard(color, icon, number, label){
+    return '<div class="counter-card">' +
+      '<div class="counter-icon '+color+'">'+icon+'</div>' +
+      '<div class="counter-info">' +
+        '<div class="counter-number">'+number+'</div>' +
+        '<div class="counter-label">'+label+'</div>' +
+      '</div></div>';
+  }
+
+  // ── Render case list ──
+  function renderCases(cases){
+    var list = document.getElementById('caseList');
+    var filtered = cases;
+    if(currentFilter !== 'todos'){
+      filtered = cases.filter(function(c){ return c.status === currentFilter; });
+    }
+
+    // Search
+    var q = document.getElementById('searchInput').value.trim().toLowerCase();
+    if(q){
+      filtered = filtered.filter(function(c){
+        return c.cliente.nome.toLowerCase().indexOf(q) > -1 ||
+               c.placa.toLowerCase().indexOf(q) > -1;
+      });
+    }
+
+    if(filtered.length === 0){
+      list.innerHTML = '<div class="empty-state">' +
+        '<svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"/><polyline points="14 2 14 8 20 8"/></svg>' +
+        '<p>Nenhum caso encontrado.</p></div>';
+      return;
+    }
+
+    var html = '';
+    filtered.forEach(function(c){
+      var st = STATUS_MAP[c.status] || STATUS_MAP.novo;
+      var ia = c.analiseIA;
+      var scoreHtml = ia
+        ? '<span style="color:'+GRAU_COLORS[ia.grau]+'">'+ia.pontuacao+'</span>'
+        : '<span style="color:#9CA3AF">—</span>';
+      var infractionText = ia ? ia.tipoInfracao : 'Aguardando análise';
+
+      html += '<div class="case-card" data-id="'+c.id+'">';
+
+      // Row
+      html += '<div class="case-row" onclick="toggleCase(\''+c.id+'\')">';
+      html += '<div class="case-date">'+c.data+'</div>';
+      html += '<div class="case-client"><span class="case-client-name">'+c.cliente.nome+'</span><span class="case-client-contact">'+c.placa+'</span></div>';
+      html += '<div class="case-infraction">'+infractionText+'</div>';
+      html += '<div class="case-score">'+scoreHtml+'</div>';
+      html += '<div class="case-status '+st.cls+'">'+st.label+'</div>';
+      html += '<div class="case-chevron"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></div>';
+      html += '</div>';
+
+      // Detail
+      html += '<div class="case-detail"><div class="case-detail-inner">';
+      html += renderDetail(c);
+      html += '</div></div>';
+
+      html += '</div>';
+    });
+
+    list.innerHTML = html;
+  }
+
+  function renderDetail(c){
+    var ia = c.analiseIA;
+    var html = '<div class="detail-grid">';
+
+    // Coluna 1: Cliente
+    html += '<div class="detail-block">';
+    html += '<div class="detail-block-label">Cliente</div>';
+    html += '<div class="detail-block-value">'+c.cliente.nome+'</div>';
+    html += '<div class="detail-block-value small">'+c.cliente.telefone+'</div>';
+    html += '<div class="detail-block-value small">'+c.cliente.email+'</div>';
+    html += '<div class="detail-block-value small" style="margin-top:6px">Placa: <strong>'+c.placa+'</strong></div>';
+    html += '</div>';
+
+    if(ia){
+      // Coluna 2: Multa
+      html += '<div class="detail-block">';
+      html += '<div class="detail-block-label">Dados da multa</div>';
+      html += '<div class="detail-block-value">'+ia.tipoInfracao+'</div>';
+      html += '<div class="detail-block-value small">'+ia.artigo+'</div>';
+      html += '<div class="detail-block-value small" style="margin-top:6px">Valor: <strong>'+ia.valorMulta+'</strong></div>';
+      html += '<div class="detail-block-value small">Pontos: <strong>'+ia.pontosCNH+'</strong></div>';
+      html += '</div>';
+
+      // Coluna 3: Análise
+      var grauColor = GRAU_COLORS[ia.grau] || '#9CA3AF';
+      html += '<div class="detail-block">';
+      html += '<div class="detail-block-label">Análise da IA</div>';
+      html += '<div style="display:flex;align-items:center;gap:10px;margin-bottom:6px">';
+      html += '<span style="font-family:Montserrat,sans-serif;font-size:22px;font-weight:300;color:'+grauColor+'">'+ia.pontuacao+'</span>';
+      html += '<span style="font-size:10px;color:'+grauColor+';font-family:Montserrat,sans-serif;letter-spacing:1px;text-transform:uppercase">Grau '+ia.grau+'</span>';
+      html += '</div>';
+      html += '<div class="detail-block-value small">'+ia.diasRestantes+' dias restantes</div>';
+      html += '</div>';
+    } else {
+      // Sem análise ainda
+      html += '<div class="detail-block" style="grid-column:span 2;display:flex;align-items:center;justify-content:center;color:#9CA3AF;font-size:13px">';
+      html += '<div style="text-align:center">';
+      html += '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="margin-bottom:8px"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>';
+      html += '<p>Aguardando análise da IA.</p>';
+      html += '</div></div>';
+    }
+
+    html += '</div>'; // detail-grid
+
+    // Parecer (se tem IA)
+    if(ia){
+      html += '<div class="detail-section">';
+      html += '<div class="detail-section-title">Parecer preliminar</div>';
+      html += '<p style="font-size:13px;color:#6B7280;line-height:1.7;font-weight:300;margin-bottom:10px">'+ia.resumo+'</p>';
+      html += '<ul class="detail-fundamentos">';
+      ia.fundamentos.forEach(function(f){
+        html += '<li>'+f+'</li>';
+      });
+      html += '</ul>';
+      html += '</div>';
+    }
+
+    // Ações
+    html += '<div class="detail-actions">';
+
+    if(c.status === 'novo'){
+      /*
+       * ════════════════════════════
+       *  AÇÃO: Forçar análise da IA
+       *  Chamar endpoint da IA aqui
+       * ════════════════════════════
+       */
+      html += '<button class="action-btn primary" onclick="actionAnalyze(\''+c.id+'\')">Analisar agora</button>';
+    }
+
+    if(c.status === 'pago'){
+      /*
+       * ════════════════════════════════
+       *  AÇÃO: Iniciar elaboração do
+       *  recurso (mover pra "andamento")
+       * ════════════════════════════════
+       */
+      html += '<button class="action-btn primary" onclick="actionStart(\''+c.id+'\')">Iniciar recurso</button>';
+    }
+
+    if(c.status === 'andamento'){
+      /*
+       * ════════════════════════════════
+       *  AÇÃO: Marcar como concluído
+       *  (recurso enviado ao cliente)
+       * ════════════════════════════════
+       */
+      html += '<button class="action-btn primary" onclick="actionComplete(\''+c.id+'\')">Marcar concluído</button>';
+    }
+
+    /*
+     * ════════════════════════════════════
+     *  AÇÃO: Abrir WhatsApp do cliente
+     *  Integrar com API do WhatsApp aqui
+     * ════════════════════════════════════
+     */
+    html += '<button class="action-btn secondary" onclick="actionWhatsApp(\''+c.cliente.telefone+'\')">Contatar cliente</button>';
+
+    html += '</div>';
+
+    return html;
+  }
+
+  // ── Toggle case ──
+  window.toggleCase = function(id){
+    var card = document.querySelector('.case-card[data-id="'+id+'"]');
+    if(!card) return;
+    var detail = card.querySelector('.case-detail');
+    var inner = card.querySelector('.case-detail-inner');
+    var isOpen = card.classList.contains('open');
+
+    // Fechar todos os outros
+    document.querySelectorAll('.case-card.open').forEach(function(c){
+      if(c !== card){
+        c.classList.remove('open');
+        c.querySelector('.case-detail').style.maxHeight = '0';
+      }
+    });
+
+    if(isOpen){
+      card.classList.remove('open');
+      detail.style.maxHeight = '0';
+    } else {
+      card.classList.add('open');
+      detail.style.maxHeight = inner.scrollHeight + 'px';
+    }
+  };
+
+  // ── Actions (integrar com backend) ──
+
+  /*
+   * ═══════════════════════════════════════════════════
+   *  AÇÕES DO PAINEL — INTEGRAR COM SEU BACKEND
+   * ═══════════════════════════════════════════════════
+   *
+   *  Cada função abaixo hoje muda o status local.
+   *  Substituir por chamadas fetch() ao seu backend
+   *  para persistir as mudanças no banco de dados.
+   *
+   *  Exemplo:
+   *  async function actionStart(id) {
+   *    await fetch('/api/cases/' + id + '/start', { method: 'POST' });
+   *    loadCases(); // recarrega do banco
+   *  }
+   *
+   * ═══════════════════════════════════════════════════
+   */
+
+  window.actionAnalyze = function(id){
+    var c = MOCK_CASES.find(function(x){ return x.id === id; });
+    if(c){ c.status = 'analisado'; }
+    alert('Integrar: enviar multa do caso ' + id + ' para a IA.');
+    refresh();
+  };
+
+  window.actionStart = function(id){
+    var c = MOCK_CASES.find(function(x){ return x.id === id; });
+    if(c){ c.status = 'andamento'; }
+    refresh();
+  };
+
+  window.actionComplete = function(id){
+    var c = MOCK_CASES.find(function(x){ return x.id === id; });
+    if(c){ c.status = 'concluido'; }
+    refresh();
+  };
+
+  window.actionWhatsApp = function(phone){
+    var clean = phone.replace(/\D/g,'');
+    window.open('https://wa.me/55' + clean, '_blank');
+  };
+
+  function refresh(){
+    renderCounters(MOCK_CASES);
+    renderCases(MOCK_CASES);
+  }
+
+  // ── Filters ──
+  document.querySelectorAll('.filter-btn').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      document.querySelectorAll('.filter-btn').forEach(function(b){ b.classList.remove('active'); });
+      btn.classList.add('active');
+      currentFilter = btn.dataset.filter;
+      renderCases(MOCK_CASES);
+    });
+  });
+
+  // ── Search ──
+  document.getElementById('searchInput').addEventListener('input', function(){
+    renderCases(MOCK_CASES);
+  });
+
+  // ── Icons ──
+  function iconInbox(){ return '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 16 12 14 15 10 15 8 12 2 12"/><path d="M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"/></svg>'; }
+  function iconAlert(){ return '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>'; }
+  function iconCheck(){ return '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>'; }
+  function iconArchive(){ return '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="5" x="2" y="3" rx="1"/><path d="M4 8v11a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8"/><path d="M10 12h4"/></svg>'; }
+
+  // ── Init ──
+  refresh();
+
+})();
+</script>
+</body>
+</html>
