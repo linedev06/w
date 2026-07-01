@@ -12,290 +12,333 @@
   --purple-deep:#6D28D9;
   --purple-light:#F5F3FF;
   --purple-mist:#EDE9FE;
+  --green:#10B981;
+  --green-light:rgba(16,185,129,.08);
   --text:#1E1B2E;
   --text-sec:#6B7280;
   --text-dim:#9CA3AF;
+  --bg:#F0EFF2;
+  --card:#FFFFFF;
   --border:#E5E7EB;
-  --white:#FFFFFF;
-  --success:#10B981;
-  --success-bg:rgba(16,185,129,.08);
-  --warning:#F59E0B;
-  --warning-bg:rgba(245,158,11,.08);
-  --danger:#EF4444;
-  --danger-bg:rgba(239,68,68,.08);
-  --blue:#3B82F6;
-  --blue-bg:rgba(59,130,246,.08);
 }
 body{
   font-family:'Inter',sans-serif;
-  background:#FAFAFA;
+  background:var(--bg);
   color:var(--text);
   min-height:100vh;
 }
 
 /* ═══ HEADER ═══ */
 .panel-header{
-  background:var(--white);
-  border-bottom:1px solid var(--border);
-  padding:0 32px;
+  background:var(--text);
+  padding:0 40px;
   display:flex;align-items:center;justify-content:space-between;
-  height:60px;
-  position:sticky;top:0;z-index:50;
+  height:56px;
+}
+.panel-brand{
+  display:flex;align-items:center;gap:16px;
 }
 .panel-logo{
   font-family:'Montserrat',sans-serif;font-weight:400;
-  font-size:13px;letter-spacing:3px;text-transform:uppercase;
-  color:var(--text);display:flex;align-items:center;gap:16px;
+  font-size:12px;letter-spacing:3px;text-transform:uppercase;
+  color:rgba(255,255,255,.5);
 }
-.panel-logo span{color:var(--purple)}
-.panel-logo-divider{
-  width:1px;height:20px;background:var(--border);
-}
-.panel-logo-label{
-  font-size:10px;letter-spacing:2px;color:var(--text-dim);
+.panel-logo span{color:rgba(255,255,255,.85)}
+.panel-divider{width:1px;height:16px;background:rgba(255,255,255,.12)}
+.panel-label{
+  font-family:'Montserrat',sans-serif;font-size:9px;
+  letter-spacing:2px;text-transform:uppercase;
+  color:rgba(255,255,255,.3);
 }
 .panel-user{
+  font-size:12px;color:rgba(255,255,255,.4);
   display:flex;align-items:center;gap:10px;
-  font-size:13px;color:var(--text-sec);
 }
 .panel-avatar{
-  width:32px;height:32px;border-radius:50%;
-  background:var(--purple-light);color:var(--purple);
+  width:28px;height:28px;border-radius:50%;
+  background:var(--purple);color:#fff;
   display:flex;align-items:center;justify-content:center;
-  font-family:'Montserrat',sans-serif;font-size:12px;font-weight:500;
+  font-family:'Montserrat',sans-serif;font-size:10px;font-weight:400;
 }
 
-/* ═══ COUNTERS ═══ */
-.counters{
-  padding:28px 32px;
-  display:flex;gap:16px;
+/* ═══ SUMMARY BAR ═══ */
+.summary-bar{
+  padding:28px 40px;
+  display:flex;align-items:baseline;gap:32px;
 }
-.counter-card{
-  flex:1;
-  background:var(--white);
-  border:1px solid var(--border);
-  border-radius:10px;
-  padding:20px 20px;
-  display:flex;align-items:center;gap:16px;
+.summary-item{
+  display:flex;align-items:baseline;gap:8px;
 }
-.counter-icon{
-  width:40px;height:40px;border-radius:10px;
-  display:flex;align-items:center;justify-content:center;
-  flex-shrink:0;
+.summary-number{
+  font-family:'Montserrat',sans-serif;font-weight:300;
+  font-size:28px;color:var(--text);line-height:1;
 }
-.counter-icon.purple{background:var(--purple-light);color:var(--purple)}
-.counter-icon.yellow{background:var(--warning-bg);color:var(--warning)}
-.counter-icon.green{background:var(--success-bg);color:var(--success)}
-.counter-icon.blue{background:var(--blue-bg);color:var(--blue)}
-.counter-info{}
-.counter-number{
-  font-family:'Montserrat',sans-serif;font-weight:400;
-  font-size:24px;line-height:1;margin-bottom:4px;
-}
-.counter-label{
-  font-size:11px;color:var(--text-dim);
-  font-family:'Montserrat',sans-serif;
-  letter-spacing:1px;text-transform:uppercase;
-}
-
-/* ═══ TOOLBAR ═══ */
-.toolbar{
-  padding:0 32px 20px;
-  display:flex;align-items:center;justify-content:space-between;
-  gap:16px;
-}
-.toolbar-filters{display:flex;gap:8px}
-.filter-btn{
-  font-family:'Montserrat',sans-serif;font-weight:400;
-  font-size:10px;letter-spacing:1.5px;text-transform:uppercase;
-  padding:8px 16px;border-radius:8px;
-  border:1px solid var(--border);background:var(--white);
-  color:var(--text-sec);cursor:pointer;transition:all .2s;
-}
-.filter-btn:hover{border-color:var(--purple-mist);color:var(--text)}
-.filter-btn.active{
-  background:var(--purple);color:var(--white);border-color:var(--purple);
-}
-.toolbar-search{
-  display:flex;align-items:center;gap:8px;
-  padding:8px 14px;
-  border:1px solid var(--border);border-radius:8px;
-  background:var(--white);
-  min-width:240px;
-}
-.toolbar-search svg{color:var(--text-dim);flex-shrink:0}
-.toolbar-search input{
-  border:none;outline:none;font-family:'Inter',sans-serif;
-  font-size:13px;color:var(--text);width:100%;
-  background:transparent;
-}
-.toolbar-search input::placeholder{color:var(--text-dim)}
-
-/* ═══ CASE LIST ═══ */
-.case-list{padding:0 32px 40px}
-
-.case-card{
-  background:var(--white);
-  border:1px solid var(--border);
-  border-radius:10px;
-  margin-bottom:8px;
-  overflow:hidden;
-  transition:border-color .2s;
-}
-.case-card:hover{border-color:var(--purple-mist)}
-
-/* Row (always visible) */
-.case-row{
-  display:grid;
-  grid-template-columns:100px 1.2fr 1fr 80px 120px 40px;
-  align-items:center;
-  padding:16px 20px;
-  cursor:pointer;
-  gap:12px;
-}
-.case-date{
+.summary-number.accent{color:var(--purple)}
+.summary-text{
   font-size:12px;color:var(--text-dim);
   font-family:'Montserrat',sans-serif;
   letter-spacing:.5px;
 }
-.case-client{
-  display:flex;flex-direction:column;gap:2px;
+.summary-sep{
+  width:1px;height:20px;background:var(--border);
+  align-self:center;
 }
-.case-client-name{font-size:14px;font-weight:500}
-.case-client-contact{font-size:11px;color:var(--text-dim)}
-.case-infraction{font-size:13px;color:var(--text-sec)}
-.case-score{
+
+/* ═══ CONTROLS ═══ */
+.controls{
+  padding:0 40px 24px;
+  display:flex;align-items:center;justify-content:space-between;
+  gap:16px;
+}
+.control-tabs{
+  display:flex;gap:0;
+  border:1px solid var(--border);
+  border-radius:8px;
+  overflow:hidden;
+  background:var(--card);
+}
+.tab-btn{
   font-family:'Montserrat',sans-serif;font-weight:400;
-  font-size:14px;text-align:center;
+  font-size:10px;letter-spacing:1.5px;text-transform:uppercase;
+  padding:9px 18px;
+  border:none;background:transparent;
+  color:var(--text-dim);cursor:pointer;
+  transition:all .15s;
+  border-right:1px solid var(--border);
 }
-.case-status{
+.tab-btn:last-child{border-right:none}
+.tab-btn:hover{color:var(--text)}
+.tab-btn.active{background:var(--purple);color:#fff}
+.search-box{
+  display:flex;align-items:center;gap:8px;
+  padding:9px 14px;border:1px solid var(--border);
+  border-radius:8px;background:var(--card);
+}
+.search-box svg{color:var(--text-dim);flex-shrink:0}
+.search-box input{
+  border:none;outline:none;font-family:'Inter',sans-serif;
+  font-size:13px;color:var(--text);background:transparent;width:200px;
+}
+.search-box input::placeholder{color:var(--text-dim)}
+
+/* ═══ CASE LIST ═══ */
+.cases{padding:0 40px 48px}
+
+/* Table header */
+.case-header{
+  display:grid;
+  grid-template-columns:88px 1.3fr 1fr 72px 110px 32px;
+  gap:12px;
+  padding:0 20px 10px;
+  align-items:center;
+}
+.case-header span{
+  font-family:'Montserrat',sans-serif;font-size:9px;
+  letter-spacing:1.5px;text-transform:uppercase;
+  color:var(--text-dim);
+}
+.case-header span:nth-child(4){text-align:center}
+
+/* Card */
+.case-card{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:10px;
+  margin-bottom:6px;
+  overflow:hidden;
+  transition:box-shadow .2s, border-color .2s;
+}
+.case-card:hover{
+  border-color:var(--purple-mist);
+  box-shadow:0 4px 20px rgba(124,58,237,.05);
+}
+
+.case-row{
+  display:grid;
+  grid-template-columns:88px 1.3fr 1fr 72px 110px 32px;
+  gap:12px;
+  padding:15px 20px;
+  align-items:center;
+  cursor:pointer;
+}
+.cell-date{
+  font-family:'Montserrat',sans-serif;font-size:11px;
+  letter-spacing:.3px;color:var(--text-sec);
+}
+.cell-client{}
+.cell-name{font-size:14px;font-weight:500;margin-bottom:1px}
+.cell-plate{
+  font-family:'Montserrat',sans-serif;font-size:10px;
+  letter-spacing:1px;color:var(--text-dim);
+}
+.cell-infraction{font-size:13px;color:var(--text-sec);font-weight:300}
+.cell-score{
+  text-align:center;
+  font-family:'Montserrat',sans-serif;font-weight:400;font-size:15px;
+}
+.score-num{color:var(--purple)}
+.score-none{color:var(--text-dim);font-size:12px}
+
+/* Status badges — purple system only, green for done */
+.cell-status{
   display:inline-flex;align-items:center;justify-content:center;
-  padding:5px 10px;border-radius:6px;
+  padding:5px 0;border-radius:6px;
   font-family:'Montserrat',sans-serif;font-size:9px;
   letter-spacing:1px;text-transform:uppercase;
-  white-space:nowrap;
+  width:100%;text-align:center;
 }
-.status-novo{background:var(--blue-bg);color:var(--blue)}
-.status-analisado{background:var(--warning-bg);color:var(--warning)}
-.status-pago{background:var(--purple-light);color:var(--purple)}
-.status-andamento{background:var(--success-bg);color:var(--success)}
-.status-concluido{background:#F3F4F6;color:var(--text-dim)}
-.case-chevron{
+.st-novo{
+  border:1px solid var(--purple-mist);
+  color:var(--purple);background:transparent;
+}
+.st-analisado{
+  background:var(--purple-light);
+  color:var(--purple);border:1px solid transparent;
+}
+.st-pago{
+  background:var(--purple);
+  color:#fff;border:1px solid transparent;
+}
+.st-andamento{
+  border:1px solid rgba(16,185,129,.25);
+  color:var(--green);background:transparent;
+}
+.st-concluido{
+  background:#F3F4F6;
+  color:var(--text-dim);border:1px solid transparent;
+}
+
+.cell-chevron{
   display:flex;align-items:center;justify-content:center;
   color:var(--text-dim);transition:transform .3s;
 }
-.case-card.open .case-chevron{transform:rotate(180deg)}
+.case-card.open .cell-chevron svg{transform:rotate(180deg)}
 
-/* Expanded detail */
+/* ═══ EXPANDED DETAIL ═══ */
 .case-detail{
   max-height:0;overflow:hidden;
   transition:max-height .4s cubic-bezier(.4,0,.2,1);
 }
 .case-detail-inner{
   padding:0 20px 24px;
-  border-top:1px solid var(--border);
+}
+.detail-divider{
+  height:1px;background:var(--border);margin-bottom:20px;
 }
 
-.detail-grid{
+.detail-cols{
   display:grid;
   grid-template-columns:1fr 1fr 1fr;
-  gap:16px;
-  padding-top:20px;
+  gap:20px;
 }
-.detail-block{
-  padding:16px;background:#FAFAFA;
-  border-radius:8px;
-}
-.detail-block-label{
+.detail-col{}
+.dl{margin-bottom:14px}
+.dl-label{
   font-family:'Montserrat',sans-serif;font-size:9px;
   letter-spacing:1.5px;text-transform:uppercase;
-  color:var(--text-dim);margin-bottom:8px;
+  color:var(--text-dim);margin-bottom:4px;
 }
-.detail-block-value{font-size:14px;line-height:1.6}
-.detail-block-value.small{font-size:13px;color:var(--text-sec);font-weight:300}
+.dl-value{font-size:14px;line-height:1.5}
+.dl-value.muted{font-size:13px;color:var(--text-sec);font-weight:300}
+.dl-value.big{
+  font-family:'Montserrat',sans-serif;font-weight:300;
+  font-size:22px;color:var(--purple);
+}
 
-.detail-section{
-  padding-top:16px;margin-top:16px;
+/* Parecer section */
+.parecer-section{
+  margin-top:20px;padding-top:20px;
   border-top:1px solid var(--border);
 }
-.detail-section-title{
+.parecer-title{
   font-family:'Montserrat',sans-serif;font-size:9px;
   letter-spacing:1.5px;text-transform:uppercase;
   color:var(--text-dim);margin-bottom:10px;
 }
-.detail-fundamentos{
+.parecer-text{
+  font-size:13px;color:var(--text-sec);
+  line-height:1.7;font-weight:300;margin-bottom:12px;
+}
+.parecer-list{
   list-style:none;display:flex;flex-direction:column;gap:6px;
 }
-.detail-fundamentos li{
-  display:flex;align-items:flex-start;gap:8px;
+.parecer-list li{
+  display:flex;align-items:flex-start;gap:10px;
   font-size:13px;color:var(--text-sec);line-height:1.5;font-weight:300;
 }
-.detail-fundamentos li::before{
-  content:'';width:4px;height:4px;border-radius:50%;
+.parecer-dot{
+  width:4px;height:4px;border-radius:50%;
   background:var(--purple);margin-top:7px;flex-shrink:0;
 }
 
+/* Actions */
 .detail-actions{
+  margin-top:20px;padding-top:20px;
+  border-top:1px solid var(--border);
   display:flex;gap:10px;
-  padding-top:20px;
 }
-.action-btn{
+.act{
   font-family:'Montserrat',sans-serif;font-weight:400;
   font-size:10px;letter-spacing:1.5px;text-transform:uppercase;
-  padding:10px 20px;border-radius:8px;
-  cursor:pointer;transition:all .2s;
-  display:flex;align-items:center;gap:6px;
+  padding:10px 20px;border-radius:8px;cursor:pointer;
+  transition:all .15s;display:inline-flex;align-items:center;gap:6px;
 }
-.action-btn.primary{
-  background:var(--purple);color:var(--white);border:none;
-}
-.action-btn.primary:hover{background:var(--purple-deep)}
-.action-btn.secondary{
-  background:var(--white);color:var(--text-sec);
-  border:1px solid var(--border);
-}
-.action-btn.secondary:hover{border-color:var(--text-dim)}
-.action-btn.danger{
-  background:var(--white);color:var(--danger);
-  border:1px solid var(--danger-bg);
-}
-.action-btn.danger:hover{background:var(--danger-bg)}
+.act-primary{background:var(--purple);color:#fff;border:none}
+.act-primary:hover{background:var(--purple-deep)}
+.act-outline{background:transparent;color:var(--text-sec);border:1px solid var(--border)}
+.act-outline:hover{border-color:var(--purple-mist);color:var(--text)}
 
-/* ═══ EMPTY STATE ═══ */
+/* Waiting state */
+.waiting-state{
+  grid-column:span 2;
+  display:flex;align-items:center;gap:12px;
+  color:var(--text-dim);font-size:13px;padding:12px 0;
+}
+.waiting-state svg{color:var(--purple-mist)}
+
+/* Empty */
 .empty-state{
   text-align:center;padding:80px 24px;color:var(--text-dim);
+  font-size:14px;
 }
-.empty-state svg{color:var(--border);margin-bottom:16px}
-.empty-state p{font-size:14px}
+
+/* Urgent dot */
+.urgent-dot{
+  width:6px;height:6px;border-radius:50%;
+  background:var(--purple);display:inline-block;
+  margin-right:4px;animation:pulse 2s infinite;
+}
+@keyframes pulse{
+  0%,100%{opacity:1}50%{opacity:.3}
+}
 
 /* ═══ RESPONSIVE ═══ */
 @media(max-width:900px){
-  .counters{flex-wrap:wrap}
-  .counter-card{flex:1 1 calc(50% - 8px);min-width:0}
+  .panel-header{padding:0 20px}
+  .summary-bar{padding:24px 20px;flex-wrap:wrap;gap:20px}
+  .summary-sep{display:none}
+  .controls{padding:0 20px 20px;flex-direction:column;align-items:stretch}
+  .control-tabs{flex-wrap:wrap}
+  .search-box input{width:100%}
+  .cases{padding:0 20px 32px}
+  .case-header{display:none}
   .case-row{
-    grid-template-columns:1fr 1fr;
-    gap:8px;
+    grid-template-columns:1fr auto;
+    gap:6px;
   }
-  .case-date{order:1}
-  .case-status{order:2;justify-self:end}
-  .case-client{order:3;grid-column:1/-1}
-  .case-infraction{order:4}
-  .case-score{order:5;text-align:left}
-  .case-chevron{order:6;display:none}
-  .detail-grid{grid-template-columns:1fr}
-  .toolbar{flex-direction:column;align-items:stretch}
-  .toolbar-search{min-width:0}
-}
-@media(max-width:600px){
-  .panel-header{padding:0 16px}
-  .counters{padding:20px 16px}
-  .counter-card{flex:1 1 100%}
-  .toolbar{padding:0 16px 16px}
-  .toolbar-filters{flex-wrap:wrap}
-  .case-list{padding:0 16px 32px}
-  .case-row{padding:14px 16px}
-  .detail-grid{gap:10px}
+  .cell-date{order:3;grid-column:1/-1;margin-top:4px}
+  .cell-client{order:1}
+  .cell-status{order:2;width:auto;padding:5px 12px}
+  .cell-infraction{order:4;grid-column:1/-1}
+  .cell-score{order:5;text-align:left}
+  .cell-chevron{display:none}
+  .detail-cols{grid-template-columns:1fr}
   .detail-actions{flex-direction:column}
+}
+@media(max-width:480px){
+  .summary-bar{gap:16px}
+  .summary-number{font-size:22px}
+  .tab-btn{padding:8px 12px;font-size:9px}
 }
 </style>
 </head>
@@ -303,40 +346,46 @@ body{
 
 <!-- ═══ HEADER ═══ -->
 <div class="panel-header">
-  <div class="panel-logo">
-    MULTA<span>CHECK</span>
-    <div class="panel-logo-divider"></div>
-    <span class="panel-logo-label">PAINEL INTERNO</span>
+  <div class="panel-brand">
+    <div class="panel-logo"><span>MULTA</span>CHECK</div>
+    <div class="panel-divider"></div>
+    <span class="panel-label">Painel</span>
   </div>
   <div class="panel-user">
-    <span>Administrador</span>
+    Administrador
     <div class="panel-avatar">A</div>
   </div>
 </div>
 
-<!-- ═══ COUNTERS ═══ -->
-<div class="counters" id="counters">
-  <!-- Preenchidos via JS -->
-</div>
+<!-- ═══ SUMMARY ═══ -->
+<div class="summary-bar" id="summaryBar"></div>
 
-<!-- ═══ TOOLBAR ═══ -->
-<div class="toolbar">
-  <div class="toolbar-filters">
-    <button class="filter-btn active" data-filter="todos">Todos</button>
-    <button class="filter-btn" data-filter="novo">Novos</button>
-    <button class="filter-btn" data-filter="pago">Pagos</button>
-    <button class="filter-btn" data-filter="andamento">Em andamento</button>
-    <button class="filter-btn" data-filter="concluido">Concluídos</button>
+<!-- ═══ CONTROLS ═══ -->
+<div class="controls">
+  <div class="control-tabs">
+    <button class="tab-btn active" data-filter="todos">Todos</button>
+    <button class="tab-btn" data-filter="novo">Novos</button>
+    <button class="tab-btn" data-filter="pago">Pagos</button>
+    <button class="tab-btn" data-filter="andamento">Em andamento</button>
+    <button class="tab-btn" data-filter="concluido">Concluídos</button>
   </div>
-  <div class="toolbar-search">
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+  <div class="search-box">
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
     <input type="text" placeholder="Buscar por nome ou placa..." id="searchInput">
   </div>
 </div>
 
-<!-- ═══ CASE LIST ═══ -->
-<div class="case-list" id="caseList">
-  <!-- Preenchido via JS -->
+<!-- ═══ CASES ═══ -->
+<div class="cases">
+  <div class="case-header">
+    <span>Data</span>
+    <span>Cliente</span>
+    <span>Infração</span>
+    <span>Score</span>
+    <span>Status</span>
+    <span></span>
+  </div>
+  <div id="caseList"></div>
 </div>
 
 <script>
@@ -347,21 +396,16 @@ body{
    *  INTEGRAÇÃO BANCO DE DADOS
    * ═══════════════════════════════════════════════════════════
    *
-   *  Substituir o array MOCK_CASES abaixo pela chamada ao
-   *  seu banco de dados / API backend.
-   *
-   *  Exemplo com fetch:
+   *  Substituir MOCK_CASES por fetch() ao seu backend.
    *
    *  async function loadCases(filter) {
-   *    const response = await fetch('/api/cases?status=' + filter);
-   *    const cases = await response.json();
-   *    renderCases(cases);
-   *    renderCounters(cases);
+   *    const res = await fetch('/api/cases?status=' + filter);
+   *    const cases = await res.json();
+   *    renderAll(cases);
    *  }
    *
-   *  Cada objeto do array deve seguir a estrutura abaixo.
-   *  O campo "analiseIA" contém o resultado da IA — se a IA
-   *  ainda não analisou, esse campo pode ser null.
+   *  Estrutura esperada de cada caso abaixo.
+   *  Campo analiseIA = null quando a IA ainda não processou.
    *
    * ═══════════════════════════════════════════════════════════
    */
@@ -372,43 +416,28 @@ body{
       data:'28/06/2026',
       cliente:{ nome:'Rafael Oliveira', telefone:'(11) 98452-3310', email:'rafael.oliv@gmail.com' },
       placa:'BRA2E19',
-      status:'pago', // novo | analisado | pago | andamento | concluido
+      status:'pago',
       /*
-       * ════════════════════════════════════════════════
+       * ═══════════════════════════════════════
        *  INTEGRAÇÃO IA — campo analiseIA
-       * ════════════════════════════════════════════════
+       * ═══════════════════════════════════════
        *
-       *  Este objeto é o retorno da IA após analisar a
-       *  imagem da multa enviada pelo cliente.
+       *  Retorno da IA após analisar a imagem.
+       *  null = aguardando processamento.
        *
-       *  Se a IA ainda não processou, definir como null.
-       *  A interface mostrará "Aguardando análise".
+       *  Formato esperado:
+       *  { grau, pontuacao, tipoInfracao, artigo,
+       *    valorMulta, pontosCNH, prazoRecurso,
+       *    diasRestantes, resumo, fundamentos[] }
        *
-       *  Quando a IA retornar, popular com o formato:
-       *  {
-       *    grau: 'BAIXO' | 'MEDIO' | 'ALTO',
-       *    pontuacao: 0-100,
-       *    tipoInfracao: string,
-       *    artigo: string,
-       *    valorMulta: string,
-       *    pontosCNH: number,
-       *    prazoRecurso: string,
-       *    diasRestantes: number,
-       *    resumo: string,
-       *    fundamentos: string[]
-       *  }
-       *
-       * ════════════════════════════════════════════════
+       * ═══════════════════════════════════════
        */
       analiseIA:{
-        grau:'MEDIO',
-        pontuacao:65,
+        grau:'MEDIO', pontuacao:65,
         tipoInfracao:'Excesso de velocidade',
         artigo:'Art. 218, I do CTB',
-        valorMulta:'R$ 130,16',
-        pontosCNH:4,
-        prazoRecurso:'30 dias',
-        diasRestantes:18,
+        valorMulta:'R$ 130,16', pontosCNH:4,
+        prazoRecurso:'30 dias', diasRestantes:18,
         resumo:'Infração de natureza média registrada por radar eletrônico. Há margem para recurso com base em possíveis irregularidades de sinalização e aferição.',
         fundamentos:[
           'Verificação da calibração do equipamento',
@@ -418,28 +447,20 @@ body{
       }
     },
     {
-      id:'mc-002',
-      data:'27/06/2026',
+      id:'mc-002', data:'27/06/2026',
       cliente:{ nome:'Camila Santos', telefone:'(21) 97331-8820', email:'camila.s@hotmail.com' },
-      placa:'RIO4A55',
-      status:'novo',
-      analiseIA:null
+      placa:'RIO4A55', status:'novo', analiseIA:null
     },
     {
-      id:'mc-003',
-      data:'26/06/2026',
+      id:'mc-003', data:'26/06/2026',
       cliente:{ nome:'Pedro Almeida', telefone:'(31) 99102-4478', email:'pedroalm@gmail.com' },
-      placa:'MGA7B22',
-      status:'andamento',
+      placa:'MGA7B22', status:'andamento',
       analiseIA:{
-        grau:'ALTO',
-        pontuacao:82,
+        grau:'ALTO', pontuacao:82,
         tipoInfracao:'Avanço de sinal vermelho',
         artigo:'Art. 208 do CTB',
-        valorMulta:'R$ 293,47',
-        pontosCNH:7,
-        prazoRecurso:'30 dias',
-        diasRestantes:5,
+        valorMulta:'R$ 293,47', pontosCNH:7,
+        prazoRecurso:'30 dias', diasRestantes:5,
         resumo:'Infração gravíssima com registro por câmera de monitoramento. Prazo para recurso próximo do fim. Necessita revisão urgente.',
         fundamentos:[
           'Verificação do tempo do semáforo',
@@ -449,20 +470,15 @@ body{
       }
     },
     {
-      id:'mc-004',
-      data:'25/06/2026',
+      id:'mc-004', data:'25/06/2026',
       cliente:{ nome:'Ana Beatriz Costa', telefone:'(11) 96778-1234', email:'anab.costa@gmail.com' },
-      placa:'SPE3D77',
-      status:'concluido',
+      placa:'SPE3D77', status:'concluido',
       analiseIA:{
-        grau:'BAIXO',
-        pontuacao:35,
+        grau:'BAIXO', pontuacao:35,
         tipoInfracao:'Estacionamento irregular',
         artigo:'Art. 181, XVII do CTB',
-        valorMulta:'R$ 88,38',
-        pontosCNH:3,
-        prazoRecurso:'30 dias',
-        diasRestantes:0,
+        valorMulta:'R$ 88,38', pontosCNH:3,
+        prazoRecurso:'30 dias', diasRestantes:0,
         resumo:'Infração leve com boas chances de recurso. Sinalização do local apresenta irregularidades documentadas.',
         fundamentos:[
           'Ausência de placa regulamentar visível',
@@ -471,323 +487,244 @@ body{
       }
     },
     {
-      id:'mc-005',
-      data:'24/06/2026',
+      id:'mc-005', data:'24/06/2026',
       cliente:{ nome:'Marcos Vinícius', telefone:'(85) 98890-5567', email:'marcosv@outlook.com' },
-      placa:'CEA1F33',
-      status:'analisado',
+      placa:'CEA1F33', status:'analisado',
       analiseIA:{
-        grau:'MEDIO',
-        pontuacao:58,
+        grau:'MEDIO', pontuacao:58,
         tipoInfracao:'Faixa exclusiva de ônibus',
         artigo:'Art. 184, I do CTB',
-        valorMulta:'R$ 130,16',
-        pontosCNH:4,
-        prazoRecurso:'30 dias',
-        diasRestantes:22,
+        valorMulta:'R$ 130,16', pontosCNH:4,
+        prazoRecurso:'30 dias', diasRestantes:22,
         resumo:'Infração média por trafegar em faixa exclusiva. Possível defesa com base em sinalização insuficiente no trecho.',
         fundamentos:[
           'Análise da sinalização horizontal e vertical',
           'Verificação do horário de operação da faixa',
-          'Checagem da resolução do órgão de trânsito local'
+          'Checagem da resolução do órgão local'
         ]
       }
     }
   ];
 
-  // ── Status config ──
-  var STATUS_MAP = {
-    novo:       { label:'Novo',          cls:'status-novo' },
-    analisado:  { label:'Analisado',     cls:'status-analisado' },
-    pago:       { label:'Pago',          cls:'status-pago' },
-    andamento:  { label:'Em andamento',  cls:'status-andamento' },
-    concluido:  { label:'Concluído',     cls:'status-concluido' },
+  var STATUS = {
+    novo:      { label:'Novo',          cls:'st-novo' },
+    analisado: { label:'Analisado',     cls:'st-analisado' },
+    pago:      { label:'Pago',          cls:'st-pago' },
+    andamento: { label:'Em andamento',  cls:'st-andamento' },
+    concluido: { label:'Concluído',     cls:'st-concluido' },
   };
 
-  var GRAU_COLORS = {
-    BAIXO:'#10B981', MEDIO:'#F59E0B', ALTO:'#EF4444'
-  };
+  var filter = 'todos';
 
-  var currentFilter = 'todos';
+  // ── Summary ──
+  function renderSummary(cases){
+    var n = cases.length;
+    var novos = cases.filter(function(c){return c.status==='novo'}).length;
+    var pagos = cases.filter(function(c){return c.status==='pago'}).length;
+    var done = cases.filter(function(c){return c.status==='concluido'}).length;
 
-  // ── Render counters ──
-  function renderCounters(cases){
-    var counts = { total:cases.length, novos:0, pagos:0, concluidos:0 };
-    cases.forEach(function(c){
-      if(c.status === 'novo') counts.novos++;
-      if(c.status === 'pago') counts.pagos++;
-      if(c.status === 'concluido') counts.concluidos++;
-    });
-
-    document.getElementById('counters').innerHTML =
-      counterCard('purple', iconInbox(), counts.total, 'Total') +
-      counterCard('yellow', iconAlert(), counts.novos, 'Novos') +
-      counterCard('green', iconCheck(), counts.pagos, 'Pagos') +
-      counterCard('blue', iconArchive(), counts.concluidos, 'Concluídos');
+    document.getElementById('summaryBar').innerHTML =
+      '<div class="summary-item"><span class="summary-number">'+n+'</span><span class="summary-text">casos</span></div>' +
+      '<div class="summary-sep"></div>' +
+      '<div class="summary-item"><span class="summary-number accent">'+novos+'</span><span class="summary-text">novos</span></div>' +
+      '<div class="summary-sep"></div>' +
+      '<div class="summary-item"><span class="summary-number">'+pagos+'</span><span class="summary-text">pagos</span></div>' +
+      '<div class="summary-sep"></div>' +
+      '<div class="summary-item"><span class="summary-number">'+done+'</span><span class="summary-text">concluídos</span></div>';
   }
 
-  function counterCard(color, icon, number, label){
-    return '<div class="counter-card">' +
-      '<div class="counter-icon '+color+'">'+icon+'</div>' +
-      '<div class="counter-info">' +
-        '<div class="counter-number">'+number+'</div>' +
-        '<div class="counter-label">'+label+'</div>' +
-      '</div></div>';
-  }
-
-  // ── Render case list ──
+  // ── Cases ──
   function renderCases(cases){
     var list = document.getElementById('caseList');
-    var filtered = cases;
-    if(currentFilter !== 'todos'){
-      filtered = cases.filter(function(c){ return c.status === currentFilter; });
+    var items = cases;
+    if(filter !== 'todos'){
+      items = cases.filter(function(c){return c.status === filter});
     }
-
-    // Search
     var q = document.getElementById('searchInput').value.trim().toLowerCase();
     if(q){
-      filtered = filtered.filter(function(c){
-        return c.cliente.nome.toLowerCase().indexOf(q) > -1 ||
-               c.placa.toLowerCase().indexOf(q) > -1;
+      items = items.filter(function(c){
+        return c.cliente.nome.toLowerCase().indexOf(q)>-1 || c.placa.toLowerCase().indexOf(q)>-1;
       });
     }
 
-    if(filtered.length === 0){
-      list.innerHTML = '<div class="empty-state">' +
-        '<svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"/><polyline points="14 2 14 8 20 8"/></svg>' +
-        '<p>Nenhum caso encontrado.</p></div>';
+    if(!items.length){
+      list.innerHTML = '<div class="empty-state">Nenhum caso encontrado.</div>';
       return;
     }
 
     var html = '';
-    filtered.forEach(function(c){
-      var st = STATUS_MAP[c.status] || STATUS_MAP.novo;
+    items.forEach(function(c){
+      var st = STATUS[c.status] || STATUS.novo;
       var ia = c.analiseIA;
-      var scoreHtml = ia
-        ? '<span style="color:'+GRAU_COLORS[ia.grau]+'">'+ia.pontuacao+'</span>'
-        : '<span style="color:#9CA3AF">—</span>';
-      var infractionText = ia ? ia.tipoInfracao : 'Aguardando análise';
+      var scoreCell = ia
+        ? '<span class="score-num">'+ia.pontuacao+'</span>'
+        : '<span class="score-none">—</span>';
+      var infrText = ia ? ia.tipoInfracao : 'Aguardando análise';
+      var urgent = ia && ia.diasRestantes <= 7 && ia.diasRestantes > 0;
 
       html += '<div class="case-card" data-id="'+c.id+'">';
 
       // Row
       html += '<div class="case-row" onclick="toggleCase(\''+c.id+'\')">';
-      html += '<div class="case-date">'+c.data+'</div>';
-      html += '<div class="case-client"><span class="case-client-name">'+c.cliente.nome+'</span><span class="case-client-contact">'+c.placa+'</span></div>';
-      html += '<div class="case-infraction">'+infractionText+'</div>';
-      html += '<div class="case-score">'+scoreHtml+'</div>';
-      html += '<div class="case-status '+st.cls+'">'+st.label+'</div>';
-      html += '<div class="case-chevron"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></div>';
+      html += '<div class="cell-date">'+c.data+'</div>';
+      html += '<div class="cell-client"><div class="cell-name">'+c.cliente.nome+'</div><div class="cell-plate">'+c.placa+'</div></div>';
+      html += '<div class="cell-infraction">'+(urgent?'<span class="urgent-dot"></span>':'')+infrText+'</div>';
+      html += '<div class="cell-score">'+scoreCell+'</div>';
+      html += '<div class="cell-status '+st.cls+'">'+st.label+'</div>';
+      html += '<div class="cell-chevron"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></div>';
       html += '</div>';
 
       // Detail
       html += '<div class="case-detail"><div class="case-detail-inner">';
-      html += renderDetail(c);
+      html += '<div class="detail-divider"></div>';
+      html += buildDetail(c);
       html += '</div></div>';
 
       html += '</div>';
     });
-
     list.innerHTML = html;
   }
 
-  function renderDetail(c){
+  function buildDetail(c){
     var ia = c.analiseIA;
-    var html = '<div class="detail-grid">';
+    var h = '<div class="detail-cols">';
 
-    // Coluna 1: Cliente
-    html += '<div class="detail-block">';
-    html += '<div class="detail-block-label">Cliente</div>';
-    html += '<div class="detail-block-value">'+c.cliente.nome+'</div>';
-    html += '<div class="detail-block-value small">'+c.cliente.telefone+'</div>';
-    html += '<div class="detail-block-value small">'+c.cliente.email+'</div>';
-    html += '<div class="detail-block-value small" style="margin-top:6px">Placa: <strong>'+c.placa+'</strong></div>';
-    html += '</div>';
+    // Col 1 — Cliente
+    h += '<div class="detail-col">';
+    h += dl('Cliente', c.cliente.nome);
+    h += dl('Telefone', c.cliente.telefone, true);
+    h += dl('E-mail', c.cliente.email, true);
+    h += dl('Placa', c.placa);
+    h += '</div>';
 
     if(ia){
-      // Coluna 2: Multa
-      html += '<div class="detail-block">';
-      html += '<div class="detail-block-label">Dados da multa</div>';
-      html += '<div class="detail-block-value">'+ia.tipoInfracao+'</div>';
-      html += '<div class="detail-block-value small">'+ia.artigo+'</div>';
-      html += '<div class="detail-block-value small" style="margin-top:6px">Valor: <strong>'+ia.valorMulta+'</strong></div>';
-      html += '<div class="detail-block-value small">Pontos: <strong>'+ia.pontosCNH+'</strong></div>';
-      html += '</div>';
+      // Col 2 — Multa
+      h += '<div class="detail-col">';
+      h += dl('Infração', ia.tipoInfracao);
+      h += dl('Artigo', ia.artigo, true);
+      h += dl('Valor', ia.valorMulta);
+      h += dl('Pontos na CNH', ia.pontosCNH + ' pontos', true);
+      h += '</div>';
 
-      // Coluna 3: Análise
-      var grauColor = GRAU_COLORS[ia.grau] || '#9CA3AF';
-      html += '<div class="detail-block">';
-      html += '<div class="detail-block-label">Análise da IA</div>';
-      html += '<div style="display:flex;align-items:center;gap:10px;margin-bottom:6px">';
-      html += '<span style="font-family:Montserrat,sans-serif;font-size:22px;font-weight:300;color:'+grauColor+'">'+ia.pontuacao+'</span>';
-      html += '<span style="font-size:10px;color:'+grauColor+';font-family:Montserrat,sans-serif;letter-spacing:1px;text-transform:uppercase">Grau '+ia.grau+'</span>';
-      html += '</div>';
-      html += '<div class="detail-block-value small">'+ia.diasRestantes+' dias restantes</div>';
-      html += '</div>';
+      // Col 3 — IA
+      h += '<div class="detail-col">';
+      h += '<div class="dl"><div class="dl-label">Score da IA</div><div class="dl-value big">'+ia.pontuacao+'<span style="font-size:13px;color:#9CA3AF;font-weight:300;margin-left:4px">/100</span></div></div>';
+      h += dl('Grau', ia.grau);
+      h += dl('Prazo restante', ia.diasRestantes > 0 ? ia.diasRestantes+' dias de '+ia.prazoRecurso : 'Expirado', true);
+      h += '</div>';
     } else {
-      // Sem análise ainda
-      html += '<div class="detail-block" style="grid-column:span 2;display:flex;align-items:center;justify-content:center;color:#9CA3AF;font-size:13px">';
-      html += '<div style="text-align:center">';
-      html += '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="margin-bottom:8px"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>';
-      html += '<p>Aguardando análise da IA.</p>';
-      html += '</div></div>';
+      h += '<div class="waiting-state">';
+      h += '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>';
+      h += 'A IA ainda não processou este caso.';
+      h += '</div>';
     }
 
-    html += '</div>'; // detail-grid
+    h += '</div>'; // detail-cols
 
-    // Parecer (se tem IA)
+    // Parecer
     if(ia){
-      html += '<div class="detail-section">';
-      html += '<div class="detail-section-title">Parecer preliminar</div>';
-      html += '<p style="font-size:13px;color:#6B7280;line-height:1.7;font-weight:300;margin-bottom:10px">'+ia.resumo+'</p>';
-      html += '<ul class="detail-fundamentos">';
+      h += '<div class="parecer-section">';
+      h += '<div class="parecer-title">Parecer preliminar</div>';
+      h += '<p class="parecer-text">'+ia.resumo+'</p>';
+      h += '<ul class="parecer-list">';
       ia.fundamentos.forEach(function(f){
-        html += '<li>'+f+'</li>';
+        h += '<li><div class="parecer-dot"></div>'+f+'</li>';
       });
-      html += '</ul>';
-      html += '</div>';
+      h += '</ul></div>';
     }
 
-    // Ações
-    html += '<div class="detail-actions">';
+    // Actions
+    h += '<div class="detail-actions">';
 
     if(c.status === 'novo'){
-      /*
-       * ════════════════════════════
-       *  AÇÃO: Forçar análise da IA
-       *  Chamar endpoint da IA aqui
-       * ════════════════════════════
-       */
-      html += '<button class="action-btn primary" onclick="actionAnalyze(\''+c.id+'\')">Analisar agora</button>';
+      /* ═══ AÇÃO: Disparar IA ═══ */
+      h += '<button class="act act-primary" onclick="actionAnalyze(\''+c.id+'\')">Analisar agora</button>';
     }
-
     if(c.status === 'pago'){
-      /*
-       * ════════════════════════════════
-       *  AÇÃO: Iniciar elaboração do
-       *  recurso (mover pra "andamento")
-       * ════════════════════════════════
-       */
-      html += '<button class="action-btn primary" onclick="actionStart(\''+c.id+'\')">Iniciar recurso</button>';
+      /* ═══ AÇÃO: Iniciar recurso ═══ */
+      h += '<button class="act act-primary" onclick="actionStart(\''+c.id+'\')">Iniciar recurso</button>';
     }
-
     if(c.status === 'andamento'){
-      /*
-       * ════════════════════════════════
-       *  AÇÃO: Marcar como concluído
-       *  (recurso enviado ao cliente)
-       * ════════════════════════════════
-       */
-      html += '<button class="action-btn primary" onclick="actionComplete(\''+c.id+'\')">Marcar concluído</button>';
+      /* ═══ AÇÃO: Concluir ═══ */
+      h += '<button class="act act-primary" onclick="actionComplete(\''+c.id+'\')">Marcar concluído</button>';
     }
+    /* ═══ AÇÃO: WhatsApp ═══ */
+    h += '<button class="act act-outline" onclick="actionWhatsApp(\''+c.cliente.telefone+'\')">Contatar cliente</button>';
 
-    /*
-     * ════════════════════════════════════
-     *  AÇÃO: Abrir WhatsApp do cliente
-     *  Integrar com API do WhatsApp aqui
-     * ════════════════════════════════════
-     */
-    html += '<button class="action-btn secondary" onclick="actionWhatsApp(\''+c.cliente.telefone+'\')">Contatar cliente</button>';
-
-    html += '</div>';
-
-    return html;
+    h += '</div>';
+    return h;
   }
 
-  // ── Toggle case ──
+  function dl(label, value, muted){
+    return '<div class="dl"><div class="dl-label">'+label+'</div><div class="dl-value'+(muted?' muted':'')+'">'+value+'</div></div>';
+  }
+
+  // ── Toggle ──
   window.toggleCase = function(id){
     var card = document.querySelector('.case-card[data-id="'+id+'"]');
     if(!card) return;
     var detail = card.querySelector('.case-detail');
     var inner = card.querySelector('.case-detail-inner');
-    var isOpen = card.classList.contains('open');
+    var open = card.classList.contains('open');
 
-    // Fechar todos os outros
     document.querySelectorAll('.case-card.open').forEach(function(c){
-      if(c !== card){
-        c.classList.remove('open');
-        c.querySelector('.case-detail').style.maxHeight = '0';
-      }
+      if(c !== card){ c.classList.remove('open'); c.querySelector('.case-detail').style.maxHeight='0'; }
     });
 
-    if(isOpen){
-      card.classList.remove('open');
-      detail.style.maxHeight = '0';
-    } else {
-      card.classList.add('open');
-      detail.style.maxHeight = inner.scrollHeight + 'px';
-    }
+    if(open){ card.classList.remove('open'); detail.style.maxHeight='0'; }
+    else { card.classList.add('open'); detail.style.maxHeight=inner.scrollHeight+'px'; }
   };
-
-  // ── Actions (integrar com backend) ──
 
   /*
    * ═══════════════════════════════════════════════════
-   *  AÇÕES DO PAINEL — INTEGRAR COM SEU BACKEND
+   *  AÇÕES — INTEGRAR COM SEU BACKEND
    * ═══════════════════════════════════════════════════
    *
-   *  Cada função abaixo hoje muda o status local.
-   *  Substituir por chamadas fetch() ao seu backend
-   *  para persistir as mudanças no banco de dados.
+   *  Hoje muda status no array local.
+   *  Substituir por fetch() ao backend:
    *
-   *  Exemplo:
    *  async function actionStart(id) {
-   *    await fetch('/api/cases/' + id + '/start', { method: 'POST' });
-   *    loadCases(); // recarrega do banco
+   *    await fetch('/api/cases/'+id+'/start',{method:'POST'});
+   *    loadCases();
    *  }
    *
    * ═══════════════════════════════════════════════════
    */
 
   window.actionAnalyze = function(id){
-    var c = MOCK_CASES.find(function(x){ return x.id === id; });
-    if(c){ c.status = 'analisado'; }
-    alert('Integrar: enviar multa do caso ' + id + ' para a IA.');
+    var c = MOCK_CASES.find(function(x){return x.id===id});
+    if(c) c.status = 'analisado';
+    alert('Integrar: enviar caso '+id+' para a IA.');
     refresh();
   };
-
   window.actionStart = function(id){
-    var c = MOCK_CASES.find(function(x){ return x.id === id; });
-    if(c){ c.status = 'andamento'; }
+    var c = MOCK_CASES.find(function(x){return x.id===id});
+    if(c) c.status = 'andamento';
     refresh();
   };
-
   window.actionComplete = function(id){
-    var c = MOCK_CASES.find(function(x){ return x.id === id; });
-    if(c){ c.status = 'concluido'; }
+    var c = MOCK_CASES.find(function(x){return x.id===id});
+    if(c) c.status = 'concluido';
     refresh();
   };
-
   window.actionWhatsApp = function(phone){
-    var clean = phone.replace(/\D/g,'');
-    window.open('https://wa.me/55' + clean, '_blank');
+    window.open('https://wa.me/55'+phone.replace(/\D/g,''), '_blank');
   };
 
-  function refresh(){
-    renderCounters(MOCK_CASES);
-    renderCases(MOCK_CASES);
-  }
+  function refresh(){ renderSummary(MOCK_CASES); renderCases(MOCK_CASES); }
 
   // ── Filters ──
-  document.querySelectorAll('.filter-btn').forEach(function(btn){
-    btn.addEventListener('click', function(){
-      document.querySelectorAll('.filter-btn').forEach(function(b){ b.classList.remove('active'); });
+  document.querySelectorAll('.tab-btn').forEach(function(btn){
+    btn.addEventListener('click',function(){
+      document.querySelectorAll('.tab-btn').forEach(function(b){b.classList.remove('active')});
       btn.classList.add('active');
-      currentFilter = btn.dataset.filter;
+      filter = btn.dataset.filter;
       renderCases(MOCK_CASES);
     });
   });
 
   // ── Search ──
-  document.getElementById('searchInput').addEventListener('input', function(){
-    renderCases(MOCK_CASES);
-  });
-
-  // ── Icons ──
-  function iconInbox(){ return '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 16 12 14 15 10 15 8 12 2 12"/><path d="M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"/></svg>'; }
-  function iconAlert(){ return '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>'; }
-  function iconCheck(){ return '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>'; }
-  function iconArchive(){ return '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="5" x="2" y="3" rx="1"/><path d="M4 8v11a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8"/><path d="M10 12h4"/></svg>'; }
+  document.getElementById('searchInput').addEventListener('input',function(){ renderCases(MOCK_CASES); });
 
   // ── Init ──
   refresh();
